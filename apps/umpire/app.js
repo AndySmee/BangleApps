@@ -447,7 +447,7 @@ NRF.setServices({
       writable : true,
       onWrite : function(evt) {
         Bangle.buzz(); 
-        console.log(evt.data);
+        console.log(E.toString(evt.data));
       }
     }
   }
