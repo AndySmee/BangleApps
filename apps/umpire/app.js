@@ -447,9 +447,7 @@ NRF.setServices({
       writable : true,
       onWrite : function(evt) {
         Bangle.buzz();
-        E.showAlert(evt.data[0]).then(function() {
-          resumeGame();
-        });
+        console.log(evt.data);
       }
     }
   }
