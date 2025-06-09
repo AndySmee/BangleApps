@@ -437,7 +437,7 @@ newInnings(); // prepare 1st innings
 showMainMenu(); // ready to play
 
 NRF.setAdvertising({}, {
-  name: "Bangle Scoreboard",
+  name: "Umpire Ball Counter",
   showName: true,
   discoverable: true , // general discoverable, or limited - default is limited
   connectable: true,  // whether device is connectable - default is true
