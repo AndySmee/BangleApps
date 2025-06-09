@@ -431,19 +431,6 @@ Bangle.on('HRM', function(h) {
 newInnings(); // prepare 1st innings
 showMainMenu(); // ready to play
 
-NRF.setServices({
-  "5a0d6a15-b664-4304-8530-3a0ec53e5bc1" : {
-    "df531f62-fc0b-40ce-81b2-32a6262ea440" : {
-      writable : true,
-      onWrite : function(evt) {
-        E.showAlert(evt.data).then(function() {
-          g.clear(1);
-        });
-      }
-    }
-  }
-});
-
 NRF.setAdvertising({}, {
   name: "Remote Scoreboard",
   showName: true,
@@ -453,3 +440,16 @@ NRF.setAdvertising({}, {
   whenConnected : false ,// keep advertising when connected (nRF52 only)
   interval: 600 });
 
+NRF.setServices({
+  "5a0d6a15-b664-4304-8530-3a0ec53e5bc1" : {
+    "df531f62-fc0b-40ce-81b2-32a6262ea440" : {
+      writable : true,
+      onWrite : function(evt) {
+        Bangle.buzz();
+        E.showAlert(evt.data).then(function() {
+          resumeGame();
+        });
+      }
+    }
+  }
+});
