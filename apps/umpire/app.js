@@ -131,6 +131,11 @@ function formatTimeOfDay(timeSig) {
     + timeSig.getMinutes().toString().padStart(2, "0");
 }
 
+// log Play-Cricket Scorer app score event from Bluetooth
+function logPCS(scoreType, scoreData) {
+  console.log(scoreType, scoreData);
+}
+
 // main ball counter logic
 // and in-play screen
 function countDown(dir) {
@@ -446,8 +451,7 @@ NRF.setServices({
       value : ["BTS100/9"],
       writable : true,
       onWrite : function(evt) {
-        Bangle.buzz(); 
-        console.log(E.toString(evt.data));
+        logPCS(E.toString(evt.data.slice(null, 3)), E.toString(evt.data.slice(3)));
       }
     }
   }
