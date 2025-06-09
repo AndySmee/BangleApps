@@ -453,8 +453,8 @@ NRF.setServices({
       onWrite : function(evt) {
         var typeA = new DataView(evt.data, 0, 3);
         var dataA = new DataView(evt.data, 4);
-
-        logPCS(E.toString(typeA), E.toString(dataA));
+        console.log(typeA, dataA);
+        //logPCS(E.toString(typeA), E.toString(dataA));
       }
     }
   }
