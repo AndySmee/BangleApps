@@ -446,7 +446,7 @@ NRF.setServices({
       value : ["BTS100/9"],
       writable : true,
       onWrite : function(evt) {
-        Bangle.buzz();
+        Bangle.buzz(); 
         console.log(evt.data);
       }
     }
