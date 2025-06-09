@@ -432,7 +432,7 @@ newInnings(); // prepare 1st innings
 showMainMenu(); // ready to play
 
 NRF.setAdvertising({}, {
-  name: "Remote Scoreboard",
+  name: "Bangle Scoreboard",
   showName: true,
   discoverable: true , // general discoverable, or limited - default is limited
   connectable: true,  // whether device is connectable - default is true
@@ -446,7 +446,7 @@ NRF.setServices({
       writable : true,
       onWrite : function(evt) {
         Bangle.buzz();
-        E.showAlert(evt.data).then(function() {
+        E.showAlert(evt.data[0]).then(function() {
           resumeGame();
         });
       }
