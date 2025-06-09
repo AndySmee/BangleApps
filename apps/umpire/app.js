@@ -453,7 +453,7 @@ NRF.setServices({
       onWrite : function(evt) {
         var typeA = new Uint8Array(evt.data, 0, 3);
         var dataA = new Uint8Array(evt.data, 4);
-        console.log(E.toString(typeA), E.toString(dataA));
+         console.log(E.toString(typeA), E.toString(dataA));
         //logPCS(E.toString(typeA), E.toString(dataA));
       }
     }
