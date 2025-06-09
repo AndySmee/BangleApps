@@ -451,9 +451,9 @@ NRF.setServices({
       value : ["BTS100/9"],
       writable : true,
       onWrite : function(evt) {
-        var typeA = new DataView(evt.data, 0, 3);
-        var dataA = new DataView(evt.data, 4);
-        console.log(typeA, dataA);
+        var typeA = new Uint8Array(evt.data, 0, 3);
+        var dataA = new Uint8Array(evt.data, 4);
+        console.log(E.toString(typeA), E.toString(dataA));
         //logPCS(E.toString(typeA), E.toString(dataA));
       }
     }
