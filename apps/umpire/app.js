@@ -246,7 +246,7 @@ wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
   // create delivery text for screen 
   PCS.lastMessage.delivery = PCS.lastMessage.runs;
   if(PCS.wickets - PCS.previousWickets!=0) {
-    PCS.lastMessage.delivery = 'W ' + PCS.decision;
+    PCS.lastMessage.delivery = 'W' + PCS.decision;
   } else if(PCS.lastMessage.delivery =='') {
     PCS.lastMessage.delivery = '.';
   } else if(PCS.lastMessage.ballsFaced==0) {
@@ -257,6 +257,8 @@ wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
     } else {
       PCS.lastMessage.delivery = (PCS.lastMessage.runs - PCS.lastMessage.batRuns) + 'nb+' + PCS.lastMessage.batRuns;
     }
+  } else if(PCS.lastMessage.batRuns==0) {
+    PCS.lastMessage.delivery += '(l)b';
   }
   console.log(scoreType, PCS);
   PCS.lastMessage.scoreType = scoreType;
