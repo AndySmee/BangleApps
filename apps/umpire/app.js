@@ -29,6 +29,7 @@ var battery = 0;
 var heartRate = '';
 var heartRateEventSeconds = 0;
 var HRM = false;
+var PCSBallsFaced = 0;
 
 function toggleHRM() {
   if(HRM) {
@@ -134,10 +135,26 @@ function formatTimeOfDay(timeSig) {
 // log Play-Cricket Scorer app score event from Bluetooth
 function logPCS(scoreType, scoreData) {
   //console.log(scoreType, scoreData);
-  if(scoreType=='OVB') {
+  switch(scoreType) {
+  case 'OVB': // over ball
     addLog((new Date()), over, counter, 
-        "PCS", scoreData);
-    Bangle.buzz(); 
+        "PCS Ball", scoreData);
+    Bangle.buzz(50); 
+    break;
+  case 'BTS': // batters score
+    addLog((new Date()), over, counter, 
+        "PCS Score", scoreData);
+    Bangle.buzz(50); 
+    break;
+  case 'B1B': // bat 1 balls faced
+  case 'B2B': // bat 2 balls faced
+    PCSBallsFaced += parseInt(scoreData);
+    addLog((new Date()), over, counter, 
+        "PCS Balls Faced", scoreData);
+    Bangle.buzz(50); 
+    break;
+  default:
+    // code block
   }
 }
 
