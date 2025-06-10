@@ -148,9 +148,9 @@ function logPCS(scoreType, scoreData) {
     break;
   case 'B1B': // bat 1 balls faced
   case 'B2B': // bat 2 balls faced
-    PCSBallsFaced += parseInt(scoreData);
+    PCSBallsFaced = parseInt(scoreData);
     addLog((new Date()), over, counter, 
-        "PCS Balls Faced", scoreData);
+        'PCS ' + scoreType, scoreData);
     Bangle.buzz(50); 
     break;
   default:
