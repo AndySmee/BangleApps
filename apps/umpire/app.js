@@ -154,7 +154,7 @@ function logPCS(scoreType, scoreData) {
       PCS.overAndBall = scoreData;
     }
     addLog((new Date()), over, counter, 
-        "PCS Ball", scoreData);   
+        "PCS Ball", PCS.overAndBall);   
     console.log('PCS OVB', PCS.over, PCS.ball);
     Bangle.buzz(50); 
     break;
@@ -162,17 +162,17 @@ function logPCS(scoreType, scoreData) {
     var PCSScoreArray = scoreData.split('/');
     PCS.runs = parseInt(PCSScoreArray[0]);
     PCS.wickets = parseInt(PCSScoreArray[1]);
-    addLog((new Date()), over, counter, 
-        "PCS Score", scoreData);
     PCS.score = scoreData;
+    addLog((new Date()), over, counter, 
+        "PCS Score", PCS.score);
     console.log('PCS BTS', PCS.runs, PCS.wickets);
     Bangle.buzz(50); 
     break;
   case 'B1B': // bat 1 balls faced
   case 'B2B': // bat 2 balls faced
-    addLog((new Date()), over, counter, 
+    /*addLog((new Date()), over, counter, 
         'PCS ' + scoreType, scoreData);
-    Bangle.buzz(50); 
+    Bangle.buzz(50); */
     break;
   case 'LWD': // batters score
     addLog((new Date()), over, counter, 
