@@ -33,6 +33,7 @@ var PCS = {
   overAndBall: '',
   over: -1,
   ball: -1,
+  previousBall: -1,
   wickets: -1,
   runs: 0,
   previousRuns: 0,
@@ -156,6 +157,7 @@ function logPCS(scoreType, scoreData) {
   PCS.lastMessage.scoreData = scoreData;
   switch(scoreType) {
   case 'OVB': // over ball
+    PCS.previousBall = PCS.ball;
     var PCSOverAndBallArray = scoreData.split('.');
     PCS.over = parseInt(PCSOverAndBallArray[0]);
     if(PCSOverAndBallArray.length==1) {
@@ -176,6 +178,7 @@ function logPCS(scoreType, scoreData) {
   case 'BTS': // batters score
     var PCSScoreArray = scoreData.split('/');
     if(PCS.lastMessage.scoreType!='OVB') {
+      PCS.previousBall = PCS.ball;
       PCS.previousRuns = PCS.runs;
       PCS.previousBalls1Faced = PCS.balls1Faced;
       PCS.previousBalls2Faced = PCS.balls2Faced;
@@ -218,8 +221,11 @@ wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
 */
   }
   PCS.lastMessage.delivery = PCS.runs - PCS.previousRuns;
-  if(PCS.previousBalls1Faced - PCS.balls1Faced + PCS.previousBalls2Faced - PCS.balls2Faced==0) 
+  if(PCS.previousBalls1Faced - PCS.balls1Faced + PCS.previousBalls2Faced - PCS.balls2Faced==0) {
     PCS.lastMessage.delivery += 'wd';
+  else if(PCS.previousBall == PCS.ball) {
+    PCS.lastMessage.delivery += 'nb';
+  }
 
   if(!processing) {
     processing = true; // debounce
@@ -360,7 +366,7 @@ function countDown(dir) {
   var headlineString = 'HR:' + heartRate;
   if(heartRateEventSeconds <= 0) headlineString = '';
   headlineString = battery + '% ' + headlineString;
-  if(PCS.score!='') headlineString = battery + '% ' + PCS.score + ' (' + PCS.overAndBall + ')';
+  if(PCS.score!='') headlineString = battery + '% ' + PCS.score + ' ' + PCS.overAndBall + '';
   g.setFont("Vector",16).
     drawString(headlineString, 5, 11, true);
   // draw clock (upper-centre)
