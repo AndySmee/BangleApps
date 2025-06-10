@@ -41,6 +41,10 @@ var PCS = {
   previousBalls1Faced: 0,
   balls2Faced: 0,
   previousBalls2Faced: 0,
+  bat1Runs: 0,
+  previousBat1Runs: 0,
+  bat2Runs: 0,
+  previousBat2Runs: 0,
   score: '',
   decision: '',
   lastMessage: {
@@ -170,6 +174,8 @@ function logPCS(scoreType, scoreData) {
     PCS.previousRuns = PCS.runs;
     PCS.previousBalls1Faced = PCS.balls1Faced;
     PCS.previousBalls2Faced = PCS.balls2Faced;
+    PCS.previousBat1Runs = PCS.bat1Runs;
+    PCS.previousBat2Runs = PCS.bat2Runs;
     addLog((new Date()), over, counter, 
         "PCS Ball", PCS.overAndBall);   
     console.log('PCS OVB', PCS.over, PCS.ball);
@@ -182,6 +188,8 @@ function logPCS(scoreType, scoreData) {
       PCS.previousRuns = PCS.runs;
       PCS.previousBalls1Faced = PCS.balls1Faced;
       PCS.previousBalls2Faced = PCS.balls2Faced;
+      PCS.previousBat1Runs = PCS.bat1Runs;
+      PCS.previousBat2Runs = PCS.bat2Runs;
     }
     PCS.runs = parseInt(PCSScoreArray[0]);
     PCS.wickets = parseInt(PCSScoreArray[1]);
@@ -191,12 +199,18 @@ function logPCS(scoreType, scoreData) {
     console.log('PCS BTS', PCS.runs, PCS.wickets);
     Bangle.buzz(50); 
     break;
+  case 'B1S': // bat 1 score
+    PCS.bat1Runs = parseInt(scoreData);
+    break;
+  case 'B2S': // bat 2 score
+    PCS.bat2Runs = parseInt(scoreData);
+    break;
   case 'B1B': // bat 1 balls faced
     PCS.balls1Faced = parseInt(scoreData);
     break;
   case 'B2B': // bat 2 balls faced
     PCS.balls2Faced = parseInt(scoreData);
-    break;
+    break; 
   case 'LWD': // batters score
     PCS.decision = PCS.wickets + ' ' + scoreData;
     addLog((new Date()), over, counter, 
@@ -224,7 +238,7 @@ wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
   PCS.lastMessage.delivery = PCS.runs - PCS.previousRuns;
   if(PCS.previousBalls1Faced - PCS.balls1Faced + PCS.previousBalls2Faced - PCS.balls2Faced==0) {
     PCS.lastMessage.delivery += 'wd';
-  } else if(PCS.previousBall == PCS.ball) {
+  } else if(PCS.previousBall == PCS.ball && PCS.previousBat1Runs - PCS.bat1Runs + PCS.previousBat2Runs - PCS.bat2Runs==0) {
     PCS.lastMessage.delivery += 'nb';
   }
   console.log('PCS', PCS.lastMessage);
