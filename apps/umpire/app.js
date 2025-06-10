@@ -244,7 +244,9 @@ wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
   PCS.lastMessage.fairDelivery = PCS.previousBall != PCS.ball;
   // create delivery text for screen 
   PCS.lastMessage.delivery = PCS.lastMessage.runs;
-  if(PCS.lastMessage.ballsFaced==0) {
+  if(PCS.lastMessage.delivery =='') {
+    PCS.lastMessage.delivery = '.';
+  } else if(PCS.lastMessage.ballsFaced==0) {
     PCS.lastMessage.delivery += 'wd';
   } else if(!PCS.lastMessage.fairDelivery) {
     if(PCS.lastMessage.batRuns==0) {
