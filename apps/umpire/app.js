@@ -29,7 +29,10 @@ var battery = 0;
 var heartRate = '';
 var heartRateEventSeconds = 0;
 var HRM = false;
-var PCSBallsFaced = 0;
+var PCS = {
+  ball: '',
+  score: ''
+};
 
 function toggleHRM() {
   if(HRM) {
@@ -139,16 +142,17 @@ function logPCS(scoreType, scoreData) {
   case 'OVB': // over ball
     addLog((new Date()), over, counter, 
         "PCS Ball", scoreData);
+    PCS.ball = scoreData;
     Bangle.buzz(50); 
     break;
   case 'BTS': // batters score
     addLog((new Date()), over, counter, 
         "PCS Score", scoreData);
+    PCS.score = scoreData;
     Bangle.buzz(50); 
     break;
   case 'B1B': // bat 1 balls faced
   case 'B2B': // bat 2 balls faced
-    PCSBallsFaced = parseInt(scoreData);
     addLog((new Date()), over, counter, 
         'PCS ' + scoreType, scoreData);
     Bangle.buzz(50); 
@@ -265,10 +269,12 @@ function countDown(dir) {
    drawString('\¦\¦\¦', 173, 15, true);
   // draw battery and heart rate (top-left)
   g.setFontAlign(-1,0);
-  var heartRateString = 'HR:' + heartRate;
-  if(heartRateEventSeconds <= 0) heartRateString = '';
+  var headlineString = 'HR:' + heartRate;
+  if(heartRateEventSeconds <= 0) headlineString = '';
+  headlineString = battery + '% ' + headlineString;
+  if(PCS.score!='') headlineString = PCS.ball + ' ' + PCS.score;
   g.setFont("Vector",16).
-    drawString(battery + '% ' + heartRateString, 5, 11, true);
+    drawString(headlineString, 5, 11, true);
   // draw clock (upper-centre)
   g.setFontAlign(0,0);
   g.setFont("Vector",48).
