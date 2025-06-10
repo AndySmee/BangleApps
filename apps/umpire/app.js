@@ -31,10 +31,10 @@ var heartRateEventSeconds = 0;
 var HRM = false;
 var PCS = {
   overAndBall: '',
-  over: -1,
-  ball: -1,
-  previousBall: -1,
-  wickets: -1,
+  over: 0,
+  ball: 0,
+  previousBall: 0,
+  wickets: 0,
   runs: 0,
   previousRuns: 0,
   balls1Faced: 0,
@@ -205,7 +205,7 @@ function logPCS(scoreType, scoreData) {
     Bangle.buzz(50); 
     break;
   default:
-    console.log('PCS', PCS.lastMessage);
+    
     // scoreboard encoding
   /*
 . = [cov. +] ovb + bnb
@@ -220,13 +220,14 @@ new over = cov + bnki/bnkj
 wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
 */
   }
+  
   PCS.lastMessage.delivery = PCS.runs - PCS.previousRuns;
   if(PCS.previousBalls1Faced - PCS.balls1Faced + PCS.previousBalls2Faced - PCS.balls2Faced==0) {
     PCS.lastMessage.delivery += 'wd';
   } else if(PCS.previousBall == PCS.ball) {
     PCS.lastMessage.delivery += 'nb';
   }
-
+  console.log('PCS', PCS.lastMessage);
   if(!processing) {
     processing = true; // debounce
     countDown(0);
