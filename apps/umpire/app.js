@@ -33,6 +33,8 @@ var PCS = {
   overAndBall: '',
   over: -1,
   ball: -1,
+  wickets: -1,
+  runs: -1,
   score: '',
   decision: ''
 };
@@ -142,24 +144,28 @@ function formatTimeOfDay(timeSig) {
 function logPCS(scoreType, scoreData) {
   switch(scoreType) {
   case 'OVB': // over ball
-    addLog((new Date()), over, counter, 
-        "PCS Ball", scoreData);
-    PCS.overAndBall = scoreData;
-    var PCSOverAndBallArray = PCS.overAndBall.split('.');
+    var PCSOverAndBallArray = scoreData.split('.');
     PCS.over = parseInt(PCSOverAndBallArray[0]);
     if(PCSOverAndBallArray.length==1) {
       PCS.ball = 0;
       PCS.overAndBall = scoreData + '.0';
     } else {
       PCS.ball = parseInt(PCSOverAndBallArray[1]);
+      PCS.overAndBall = scoreData;
     }
-    console.log('PCS', PCS.over, PCS.ball);
+    addLog((new Date()), over, counter, 
+        "PCS Ball", scoreData);   
+    console.log('PCS OVB', PCS.over, PCS.ball);
     Bangle.buzz(50); 
     break;
   case 'BTS': // batters score
+    var PCSScoreArray = scoreData.split('/');
+    PCS.runs = parseInt(PCSScoreArray[0]);
+    PCS.wickets = parseInt(PCSScoreArray[1]);
     addLog((new Date()), over, counter, 
         "PCS Score", scoreData);
     PCS.score = scoreData;
+    console.log('PCS BTS', PCS.runs, PCS.wickets);
     Bangle.buzz(50); 
     break;
   case 'B1B': // bat 1 balls faced
