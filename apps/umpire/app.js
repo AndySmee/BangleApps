@@ -35,6 +35,7 @@ var PCS = {
   ball: -1,
   wickets: -1,
   runs: -1,
+  previousRuns: -1,
   score: '',
   decision: '',
   lastMessage: {
@@ -167,7 +168,9 @@ function logPCS(scoreType, scoreData) {
     break;
   case 'BTS': // batters score
     var PCSScoreArray = scoreData.split('/');
+    PCS.previousRuns = PCS.runs;
     PCS.runs = parseInt(PCSScoreArray[0]);
+    PCS.lastMessage.delivery = PCS.runs - PCS.previousRuns;
     PCS.wickets = parseInt(PCSScoreArray[1]);
     PCS.score = scoreData;
     addLog((new Date()), over, counter, 
