@@ -199,7 +199,7 @@ function syncToPCS() {
         wickets = PCS.wickets;
         counter = PCS.ball;
         over = PCS.over + 1;
-        addLog((new Date()), over, ball, 
+        addLog((new Date()), over, counter, 
           "PCS Sync", 'Wickets:' + PCS.wickets);
         resumeGame();
       } else {
