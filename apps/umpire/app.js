@@ -545,6 +545,6 @@ NRF.setServices({
 });
 
 NRF.on('connect', function(addr) {
-  digitalWrite(LED1, 1); // light LED1
+  digitalWrite(LED1, 1); // light LED1 
   //digitalPulse(LED1,1,[100,500,100,500,100]);
 });
