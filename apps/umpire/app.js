@@ -137,7 +137,7 @@ function logPCS(scoreType, scoreData) {
   if(scoreType=='OVB') {
     addLog((new Date()), over, counter, 
         "PCS", scoreData);
-    Bangle.buzz();
+    Bangle.buzz(); 
   }
 }
 
