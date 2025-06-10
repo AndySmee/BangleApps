@@ -161,8 +161,6 @@ function formatTimeOfDay(timeSig) {
 
 // log Play-Cricket Scorer app score event from Bluetooth
 function logPCS(scoreType, scoreData) {
-  PCS.lastMessage.scoreType = scoreType;
-  PCS.lastMessage.scoreData = scoreData;
   switch(scoreType) {
   case 'OVB': // over ball
     PCS.previousBall = PCS.ball;
@@ -238,7 +236,8 @@ new over = cov + bnki/bnkj
 wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
 */
   }
-  
+  PCS.lastMessage.scoreType = scoreType;
+  PCS.lastMessage.scoreData = scoreData;
   PCS.lastMessage.runs = PCS.runs - PCS.previousRuns;
   PCS.lastMessage.ballsFaced = - PCS.previousBalls1Faced + PCS.balls1Faced - PCS.previousBalls2Faced + PCS.balls2Faced;
   PCS.lastMessage.batRuns = - PCS.previousBat1Runs + PCS.bat1Runs - PCS.previousBat2Runs + PCS.bat2Runs;
