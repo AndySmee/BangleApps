@@ -489,7 +489,7 @@ NRF.setAdvertising({}, {
 NRF.setServices({
   "5a0d6a15-b664-4304-8530-3a0ec53e5bc1" : {
     "df531f62-fc0b-40ce-81b2-32a6262ea440" : {
-      value : ["BTS100/9"],
+      value : ["BTS100/9"], 
       writable : true,
       onWrite : function(evt) {
         var typeA = new Uint8Array(evt.data, 0, 3);
