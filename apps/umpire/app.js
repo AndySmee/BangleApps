@@ -50,7 +50,11 @@ var PCS = {
   lastMessage: {
     scoreType: '',
     scoreData: '',
-    delivery: ''
+    delivery: '',
+    fairDelivery: false,
+    runs: 0,
+    ballsFaced: 0,
+    batRuns: 0
   }
 };
 
@@ -235,11 +239,20 @@ wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
 */
   }
   
-  PCS.lastMessage.delivery = PCS.runs - PCS.previousRuns;
-  if(PCS.previousBalls1Faced - PCS.balls1Faced + PCS.previousBalls2Faced - PCS.balls2Faced==0) {
+  PCS.lastMessage.runs = PCS.runs - PCS.previousRuns;
+  PCS.lastMessage.ballsFaced = PCS.previousBalls1Faced - PCS.balls1Faced + PCS.previousBalls2Faced - PCS.balls2Faced;
+  PCS.lastMessage.batRuns = PCS.previousBat1Runs - PCS.bat1Runs + PCS.previousBat2Runs - PCS.bat2Runs;
+  PCS.lastMessage.fairDelivery = PCS.previousBall != PCS.ball;
+  PCS.lastMessage.delivery = PCS.lastMessage.runs;
+  if(PCS.lastMessage.ballsFaced==0) {
     PCS.lastMessage.delivery += 'wd';
-  } else if(PCS.previousBall == PCS.ball && PCS.previousBat1Runs - PCS.bat1Runs + PCS.previousBat2Runs - PCS.bat2Runs==0) {
-    PCS.lastMessage.delivery += 'nb';
+  } else if(!PCS.lastMessage.fairDelivery) {
+    if(PCS.lastMessage.batRuns==0) {
+      PCS.lastMessage.delivery += 'nb';
+    } else {
+      PCS.lastMessage.delivery = (PCS.lastMessage.runs - PCS.lastMessage.batRuns) + 'nb+' + PCS.lastMessage.batRuns;
+    }
+    
   }
   console.log('PCS', PCS.lastMessage);
   if(!processing) {
