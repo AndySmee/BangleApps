@@ -142,6 +142,7 @@ function formatTimeOfDay(timeSig) {
 
 // log Play-Cricket Scorer app score event from Bluetooth
 function logPCS(scoreType, scoreData) {
+  LED1.pulse(1, [50]);
   switch(scoreType) {
   case 'OVB': // over ball
     var PCSOverAndBallArray = scoreData.split('.');
@@ -543,5 +544,5 @@ NRF.setServices({
 });
 
 NRF.on('connect', function(addr) {
-  digitalWrite(LED1, 1); // light LED1
+  LED1.pulse(1, [100,500,100,500,100]);
 });
