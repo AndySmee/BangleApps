@@ -30,7 +30,9 @@ var heartRate = '';
 var heartRateEventSeconds = 0;
 var HRM = false;
 var PCS = {
-  ball: '',
+  overAndBall: '',
+  over: -1,
+  ball: -1,
   score: '',
   decision: ''
 };
@@ -138,12 +140,20 @@ function formatTimeOfDay(timeSig) {
 
 // log Play-Cricket Scorer app score event from Bluetooth
 function logPCS(scoreType, scoreData) {
-  //console.log(scoreType, scoreData);
   switch(scoreType) {
   case 'OVB': // over ball
     addLog((new Date()), over, counter, 
         "PCS Ball", scoreData);
-    PCS.ball = scoreData;
+    PCS.overAndBall = scoreData;
+    var PCSOverAndBallArray = PCS.overAndBall.split('.');
+    PCS.over = parseInt(PCSOverAndBallArray[0]);
+    if(PCSOverAndBallArray.length==1) {
+      PCS.ball = 0;
+      PCS.overAndBall = scoreData + '.0';
+    } else {
+      PCS.ball = parseInt(PCSOverAndBallArray[1]);
+    }
+    console.log('PCS', PCS.over, PCS.ball);
     Bangle.buzz(50); 
     break;
   case 'BTS': // batters score
@@ -285,7 +295,7 @@ function countDown(dir) {
   var headlineString = 'HR:' + heartRate;
   if(heartRateEventSeconds <= 0) headlineString = '';
   headlineString = battery + '% ' + headlineString;
-  if(PCS.score!='') headlineString = battery + '% ' + PCS.score + ' ' + PCS.ball;
+  if(PCS.score!='') headlineString = battery + '% ' + PCS.score + ' (' + PCS.overAndBall + ')';
   g.setFont("Vector",16).
     drawString(headlineString, 5, 11, true);
   // draw clock (upper-centre)
