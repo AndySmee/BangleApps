@@ -274,7 +274,7 @@ function countDown(dir) {
   g.clear(1);
   // draw wickets fallen (top-right)
   var wicketString = wickets;
-  if(PCS.decision!='') wicketString = PCS.decision + ' ' + wicketString;
+  //if(PCS.decision!='') wicketString = PCS.decision + ' ' + wicketString;
   g.setFontAlign(1,0);
   g.setFont("Vector",26).
    drawString(wicketString, 162, 14, true);
