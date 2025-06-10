@@ -133,7 +133,12 @@ function formatTimeOfDay(timeSig) {
 
 // log Play-Cricket Scorer app score event from Bluetooth
 function logPCS(scoreType, scoreData) {
-  console.log(scoreType, scoreData);
+  //console.log(scoreType, scoreData);
+  if(scoreType=='OVB') {
+    addLog((new Date()), over, counter, 
+        "PCS", scoreData);
+    Bangle.buzz();
+  }
 }
 
 // main ball counter logic
@@ -452,9 +457,9 @@ NRF.setServices({
       writable : true,
       onWrite : function(evt) {
         var typeA = new Uint8Array(evt.data, 0, 3);
-        var dataA = new Uint8Array(evt.data, 4);
-         console.log(E.toString(typeA), E.toString(dataA));
-        //logPCS(E.toString(typeA), E.toString(dataA));
+        var dataA = new Uint8Array(evt.data, 3);
+        console.log(E.toString(typeA), E.toString(dataA));
+        logPCS(E.toString(typeA), E.toString(dataA));
       }
     }
   }
