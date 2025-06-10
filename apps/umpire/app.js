@@ -31,7 +31,8 @@ var heartRateEventSeconds = 0;
 var HRM = false;
 var PCS = {
   ball: '',
-  score: ''
+  score: '',
+  decision: ''
 };
 
 function toggleHRM() {
@@ -157,6 +158,12 @@ function logPCS(scoreType, scoreData) {
         'PCS ' + scoreType, scoreData);
     Bangle.buzz(50); 
     break;
+  case 'LWD': // batters score
+    addLog((new Date()), over, counter, 
+        "PCS Wicket", scoreData);
+    PCS.decision = scoreData;
+    Bangle.buzz(50); 
+    break;
   default:
     // code block
   }
@@ -266,9 +273,11 @@ function countDown(dir) {
   // refresh in-play screen
   g.clear(1);
   // draw wickets fallen (top-right)
+  var wicketString = wickets;
+  if(PCS.decision!='') wicketString = PCS.decision + ' ' + wicketString;
   g.setFontAlign(1,0);
   g.setFont("Vector",26).
-   drawString(wickets, 162, 14, true);
+   drawString(wicketString, 162, 14, true);
   g.setFont("Vector",12).
    drawString('\¦\¦\¦', 173, 15, true);
   // draw battery and heart rate (top-left)
