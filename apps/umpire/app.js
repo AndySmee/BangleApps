@@ -142,7 +142,7 @@ function formatTimeOfDay(timeSig) {
 
 // log Play-Cricket Scorer app score event from Bluetooth
 function logPCS(scoreType, scoreData) {
-  //digitalPulse(LED1,1,100);
+  digitalWrite(LED1, 1); // light LED1
   switch(scoreType) {
   case 'OVB': // over ball
     var PCSOverAndBallArray = scoreData.split('.');
@@ -186,7 +186,6 @@ function logPCS(scoreType, scoreData) {
   }
   if(!processing) {
     processing = true; // debounce
-    digitalWrite(LED1, 1); // light LED1
     countDown(0);
   }
 }
@@ -309,6 +308,7 @@ function countDown(dir) {
     }
   }
   // refresh in-play screen
+  digitalWrite(LED1, 0); // off LED1
   g.clear(1);
   // draw wickets fallen (top-right)
   var wicketString = wickets;
