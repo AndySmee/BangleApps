@@ -142,7 +142,7 @@ function formatTimeOfDay(timeSig) {
 
 // log Play-Cricket Scorer app score event from Bluetooth
 function logPCS(scoreType, scoreData) {
-  digitalWrite(LED1, 1); // light LED1
+  //digitalWrite(LED1, 1); // light LED1
   switch(scoreType) {
   case 'OVB': // over ball
     var PCSOverAndBallArray = scoreData.split('.');
@@ -176,13 +176,25 @@ function logPCS(scoreType, scoreData) {
     Bangle.buzz(50); */
     break;
   case 'LWD': // batters score
+    PCS.decision = PCS.wickets + ' ' + scoreData;
     addLog((new Date()), over, counter, 
-        "PCS Wicket", scoreData);
-    PCS.decision = scoreData;
+        "PCS Wicket", PCS.decision);
     Bangle.buzz(50); 
     break;
   default:
-    // code block
+    // scoreboard encoding
+  /*
+. = [cov. +] ovb + bnb
+1/3/5 = ovb + bts + b1s/b1b/b1k0 + b2k1
+2/4/6 = ovb + bts + b1s/b1b
+wd = bts
+nb = bts + b1b
+b = ovb + bts + b1k1 + b2b/b2k0
+lb = ovb + bts + b1b/b1k0 + b2k1
+last ball of over = ovb0 + ovr + r/b/lb
+new over = cov + bnki/bnkj
+wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
+*/
   }
   if(!processing) {
     processing = true; // debounce
@@ -545,6 +557,5 @@ NRF.setServices({
 });
 
 NRF.on('connect', function(addr) {
-  digitalWrite(LED1, 1); // light LED1 
-  //digitalPulse(LED1,1,[100,500,100,500,100]);
+  Bangle.buzz(1000);
 });
