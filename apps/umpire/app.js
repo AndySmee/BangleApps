@@ -223,7 +223,7 @@ wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
   PCS.lastMessage.delivery = PCS.runs - PCS.previousRuns;
   if(PCS.previousBalls1Faced - PCS.balls1Faced + PCS.previousBalls2Faced - PCS.balls2Faced==0) {
     PCS.lastMessage.delivery += 'wd';
-  else if(PCS.previousBall == PCS.ball) {
+  } else if(PCS.previousBall == PCS.ball) {
     PCS.lastMessage.delivery += 'nb';
   }
 
