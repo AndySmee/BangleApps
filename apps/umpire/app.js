@@ -517,6 +517,7 @@ Bangle.on('HRM', function(h) {
 newInnings(); // prepare 1st innings
 showMainMenu(); // ready to play
 
+NRF.disconnect(); // drop BLE connections to allow restart of BLE
 NRF.setAdvertising({}, {
   name: "Umpire Ball Counter",
   showName: true,
