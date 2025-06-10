@@ -161,6 +161,7 @@ function logPCS(scoreType, scoreData) {
       PCS.ball = parseInt(PCSOverAndBallArray[1]);
       PCS.overAndBall = scoreData;
     }
+    PCS.previousRuns = PCS.runs;
     addLog((new Date()), over, counter, 
         "PCS Ball", PCS.overAndBall);   
     console.log('PCS OVB', PCS.over, PCS.ball);
@@ -168,9 +169,8 @@ function logPCS(scoreType, scoreData) {
     break;
   case 'BTS': // batters score
     var PCSScoreArray = scoreData.split('/');
-    PCS.previousRuns = PCS.runs;
+    if(PCS.lastMessage.scoreType!='OVB') PCS.previousRuns = PCS.runs;
     PCS.runs = parseInt(PCSScoreArray[0]);
-    PCS.lastMessage.delivery = PCS.runs - PCS.previousRuns;
     PCS.wickets = parseInt(PCSScoreArray[1]);
     PCS.score = scoreData;
     addLog((new Date()), over, counter, 
@@ -207,6 +207,7 @@ new over = cov + bnki/bnkj
 wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
 */
   }
+  PCS.lastMessage.delivery = PCS.runs - PCS.previousRuns;
   if(!processing) {
     processing = true; // debounce
     countDown(0);
