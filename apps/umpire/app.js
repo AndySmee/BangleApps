@@ -39,7 +39,8 @@ var PCS = {
   decision: '',
   lastMessage: {
     scoreType: '',
-    scoreData: ''
+    scoreData: '',
+    delivery: ''
   }
 };
 
@@ -174,12 +175,12 @@ function logPCS(scoreType, scoreData) {
     console.log('PCS BTS', PCS.runs, PCS.wickets);
     Bangle.buzz(50); 
     break;
-  case 'B1B': // bat 1 balls faced
-  case 'B2B': // bat 2 balls faced
+  //case 'B1B': // bat 1 balls faced
+  //case 'B2B': // bat 2 balls faced
     /*addLog((new Date()), over, counter, 
         'PCS ' + scoreType, scoreData);
     Bangle.buzz(50); */
-    //break;
+   // break;
   case 'LWD': // batters score
     PCS.decision = PCS.wickets + ' ' + scoreData;
     addLog((new Date()), over, counter, 
@@ -360,7 +361,7 @@ function countDown(dir) {
     BALL_FACED_CHAR.repeat(counter) 
     + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - counter);
   if(timeCalled) ballGraph = '-TIME-';
-  if(PCS.lastMessage.scoreType!='') ballGraph = PCS.lastMessage.scoreType + ' ' + ballGraph;
+  if(PCS.lastMessage.delivery!='') ballGraph = PCS.lastMessage.delivery + ' ' + ballGraph;
   g.setFont("Vector",18).drawString(
     ballGraph + ' ' + formatDuration(deadDuration), 93, 166, true);
   // return to wait for next input
