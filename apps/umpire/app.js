@@ -254,7 +254,7 @@ wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
       PCS.lastMessage.delivery = (PCS.lastMessage.runs - PCS.lastMessage.batRuns) + 'nb+' + PCS.lastMessage.batRuns;
     }
   }
-  console.log('PCS', PCS.lastMessage);
+  console.log('PCS', PCS);
   if(!processing) {
     processing = true; // debounce
     countDown(0);
