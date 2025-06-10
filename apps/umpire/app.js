@@ -243,7 +243,7 @@ wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
   PCS.lastMessage.ballsFaced = - PCS.previousBalls1Faced + PCS.balls1Faced - PCS.previousBalls2Faced + PCS.balls2Faced;
   PCS.lastMessage.batRuns = - PCS.previousBat1Runs + PCS.bat1Runs - PCS.previousBat2Runs + PCS.bat2Runs;
   PCS.lastMessage.fairDelivery = PCS.previousBall != PCS.ball;
-  // create delivery text for screen
+  // create delivery text for screen 
   PCS.lastMessage.delivery = PCS.lastMessage.runs;
   if(PCS.lastMessage.ballsFaced==0) {
     PCS.lastMessage.delivery += 'wd';
