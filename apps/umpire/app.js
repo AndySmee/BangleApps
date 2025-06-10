@@ -160,6 +160,10 @@ function logPCS(scoreType, scoreData) {
   default:
     // code block
   }
+  if(!processing) {
+    processing = true; // debounce
+    countDown(0);
+  }
 }
 
 // main ball counter logic
@@ -272,7 +276,7 @@ function countDown(dir) {
   var headlineString = 'HR:' + heartRate;
   if(heartRateEventSeconds <= 0) headlineString = '';
   headlineString = battery + '% ' + headlineString;
-  if(PCS.score!='') headlineString = PCS.ball + ' ' + PCS.score;
+  if(PCS.score!='') headlineString = battery + '% ' + PCS.score + ' ' + PCS.ball;
   g.setFont("Vector",16).
     drawString(headlineString, 5, 11, true);
   // draw clock (upper-centre)
