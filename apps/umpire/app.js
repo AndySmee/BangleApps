@@ -189,6 +189,26 @@ function logPCS(scoreType, scoreData) {
   }
 }
 
+// synchronise match counters to PCS last score
+function syncToPCS() {
+  E.showPrompt("Synchronise with last PCS score?").
+      then(function(confirmed) {
+      if (confirmed) {
+        Bangle.buzz();
+        processing = true; //debounce to inhibit twist events
+        wickets = PCS.wickets;
+        counter = PCS.ball;
+        over = PCS.over + 1;
+        addLog((new Date()), over, ball, 
+          "PCS Sync", 'Wickets:' + PCS.wickets);
+        resumeGame();
+      } else {
+        E.showPrompt();
+        showMainMenu();
+      }
+   }
+}
+
 // main ball counter logic
 // and in-play screen
 function countDown(dir) {
@@ -403,6 +423,8 @@ function showMainMenu() {
       scrollMenuItems.push(/*LANG*/"Recall Batter");
     scrollMenuItems.push("Call Time");
     scrollMenuItems.push("New Innings");
+    if(PCS.wickets>=0 && PCS.over>=0) 
+      scrollMenuItems.push("PCS Sync");
     if(!HRM) 
       scrollMenuItems.push("Start HRM");
   }
@@ -436,6 +458,8 @@ function showMainMenu() {
         incrementWickets(-1);
       if(scrollMenuItems[idx]=="New Innings") 
         newInnings();
+      if(scrollMenuItems[idx]=="PCS Sync") 
+        syncToPCS();
       if(scrollMenuItems[idx]=="Start HRM"
         || scrollMenuItems[idx]=="Stop HRM") {
         toggleHRM();
