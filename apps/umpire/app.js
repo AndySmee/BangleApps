@@ -36,7 +36,11 @@ var PCS = {
   wickets: -1,
   runs: -1,
   score: '',
-  decision: ''
+  decision: '',
+  lastMessage: {
+    scoreType: '',
+    scoreData: ''
+  }
 };
 
 function toggleHRM() {
@@ -142,7 +146,8 @@ function formatTimeOfDay(timeSig) {
 
 // log Play-Cricket Scorer app score event from Bluetooth
 function logPCS(scoreType, scoreData) {
-  //digitalWrite(LED1, 1); // light LED1
+  PCS.lastMessage.scoreType = scoreType;
+  PCS.lastMessage.scoreData = scoreData;
   switch(scoreType) {
   case 'OVB': // over ball
     var PCSOverAndBallArray = scoreData.split('.');
@@ -174,14 +179,16 @@ function logPCS(scoreType, scoreData) {
     /*addLog((new Date()), over, counter, 
         'PCS ' + scoreType, scoreData);
     Bangle.buzz(50); */
-    break;
+    //break;
   case 'LWD': // batters score
     PCS.decision = PCS.wickets + ' ' + scoreData;
     addLog((new Date()), over, counter, 
         "PCS Wicket", PCS.decision);
+    console.log('PCS Wicket' + PCS.decision);
     Bangle.buzz(50); 
     break;
   default:
+    console.log('PCS', PCS.lastMessage);
     // scoreboard encoding
   /*
 . = [cov. +] ovb + bnb
@@ -213,7 +220,7 @@ function syncToPCS() {
         counter = PCS.ball;
         over = PCS.over + 1;
         addLog((new Date()), over, counter, 
-          "PCS Sync", 'Wickets:' + PCS.wickets);
+          "PCS Sync", 'Wickets: ' + PCS.wickets);
         resumeGame();
       } else {
         E.showPrompt();
@@ -353,6 +360,7 @@ function countDown(dir) {
     BALL_FACED_CHAR.repeat(counter) 
     + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - counter);
   if(timeCalled) ballGraph = '-TIME-';
+  if(PCS.lastMessage.scoreType!='') ballGraph = PCS.lastMessage.scoreType + ' ' + ballGraph;
   g.setFont("Vector",18).drawString(
     ballGraph + ' ' + formatDuration(deadDuration), 93, 166, true);
   // return to wait for next input
@@ -549,7 +557,7 @@ NRF.setServices({
       onWrite : function(evt) {
         var typeA = new Uint8Array(evt.data, 0, 3);
         var dataA = new Uint8Array(evt.data, 3);
-        console.log(E.toString(typeA), E.toString(dataA));
+        //console.log(E.toString(typeA), E.toString(dataA));
         logPCS(E.toString(typeA), E.toString(dataA));
       }
     }
