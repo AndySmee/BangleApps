@@ -142,7 +142,7 @@ function formatTimeOfDay(timeSig) {
 
 // log Play-Cricket Scorer app score event from Bluetooth
 function logPCS(scoreType, scoreData) {
-  digitalPulse(LED1,1,100);
+  //digitalPulse(LED1,1,100);
   switch(scoreType) {
   case 'OVB': // over ball
     var PCSOverAndBallArray = scoreData.split('.');
@@ -186,6 +186,7 @@ function logPCS(scoreType, scoreData) {
   }
   if(!processing) {
     processing = true; // debounce
+    digitalWrite(LED1, 1); // light LED1
     countDown(0);
   }
 }
@@ -544,5 +545,6 @@ NRF.setServices({
 });
 
 NRF.on('connect', function(addr) {
-  digitalPulse(LED1,1,[100,500,100,500,100]);
+  digitalWrite(LED1, 1); // light LED1
+  //digitalPulse(LED1,1,[100,500,100,500,100]);
 });
