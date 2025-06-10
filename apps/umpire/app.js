@@ -206,7 +206,7 @@ function syncToPCS() {
         E.showPrompt();
         showMainMenu();
       }
-   }
+   });
 }
 
 // main ball counter logic
