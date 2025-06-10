@@ -483,13 +483,13 @@ NRF.setAdvertising({}, {
   discoverable: true , // general discoverable, or limited - default is limited
   connectable: true,  // whether device is connectable - default is true
   scannable : true ,   // whether device can be scanned for scan response packets - default is true
-  whenConnected : false ,// keep advertising when connected (nRF52 only)
-  interval: 600 });
+  whenConnected : true ,// keep advertising when connected (nRF52 only)
+  interval: 1000 });
 
 NRF.setServices({
   "5a0d6a15-b664-4304-8530-3a0ec53e5bc1" : {
     "df531f62-fc0b-40ce-81b2-32a6262ea440" : {
-      value : ["BTS100/9"],
+      //value : ["BTS100/9"],
       writable : true,
       onWrite : function(evt) {
         var typeA = new Uint8Array(evt.data, 0, 3);
