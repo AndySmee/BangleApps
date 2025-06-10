@@ -34,8 +34,12 @@ var PCS = {
   over: -1,
   ball: -1,
   wickets: -1,
-  runs: -1,
-  previousRuns: -1,
+  runs: 0,
+  previousRuns: 0,
+  balls1Faced: 0,
+  previousBalls1Faced: 0,
+  balls2Faced: 0,
+  previousBalls2Faced: 0,
   score: '',
   decision: '',
   lastMessage: {
@@ -162,6 +166,8 @@ function logPCS(scoreType, scoreData) {
       PCS.overAndBall = scoreData;
     }
     PCS.previousRuns = PCS.runs;
+    PCS.previousBalls1Faced = PCS.balls1Faced;
+    PCS.previousBalls2Faced = PCS.balls2Faced;
     addLog((new Date()), over, counter, 
         "PCS Ball", PCS.overAndBall);   
     console.log('PCS OVB', PCS.over, PCS.ball);
@@ -169,7 +175,11 @@ function logPCS(scoreType, scoreData) {
     break;
   case 'BTS': // batters score
     var PCSScoreArray = scoreData.split('/');
-    if(PCS.lastMessage.scoreType!='OVB') PCS.previousRuns = PCS.runs;
+    if(PCS.lastMessage.scoreType!='OVB') {
+      PCS.previousRuns = PCS.runs;
+      PCS.previousBalls1Faced = PCS.balls1Faced;
+      PCS.previousBalls2Faced = PCS.balls2Faced;
+    }
     PCS.runs = parseInt(PCSScoreArray[0]);
     PCS.wickets = parseInt(PCSScoreArray[1]);
     PCS.score = scoreData;
@@ -178,12 +188,12 @@ function logPCS(scoreType, scoreData) {
     console.log('PCS BTS', PCS.runs, PCS.wickets);
     Bangle.buzz(50); 
     break;
-  //case 'B1B': // bat 1 balls faced
-  //case 'B2B': // bat 2 balls faced
-    /*addLog((new Date()), over, counter, 
-        'PCS ' + scoreType, scoreData);
-    Bangle.buzz(50); */
-   // break;
+  case 'B1B': // bat 1 balls faced
+    PCS.balls1Faced = parseInt(scoreData);
+    break;
+  case 'B2B': // bat 2 balls faced
+    PCS.balls2Faced = parseInt(scoreData);
+    break;
   case 'LWD': // batters score
     PCS.decision = PCS.wickets + ' ' + scoreData;
     addLog((new Date()), over, counter, 
@@ -208,6 +218,9 @@ wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
 */
   }
   PCS.lastMessage.delivery = PCS.runs - PCS.previousRuns;
+  if(PCS.previousBalls1Faced - PCS.balls1Faced + PCS.previousBalls2Faced - PCS.balls2Faced==0) 
+    PCS.lastMessage.delivery += 'wd';
+
   if(!processing) {
     processing = true; // debounce
     countDown(0);
