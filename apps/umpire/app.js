@@ -35,6 +35,7 @@ var PCS = {
   ball: 0,
   previousBall: 0,
   wickets: 0,
+  previousWickets: 0,
   runs: 0,
   previousRuns: 0,
   balls1Faced: 0,
@@ -178,6 +179,7 @@ function logPCS(scoreType, scoreData) {
     PCS.previousBalls2Faced = PCS.balls2Faced;
     PCS.previousBat1Runs = PCS.bat1Runs;
     PCS.previousBat2Runs = PCS.bat2Runs;
+    PCS.previousWickets = PCS.wickets;
     addLog((new Date()), over, counter, 
         "PCS Ball", PCS.overAndBall);   
     console.log('PCS OVB', PCS.over, PCS.ball);
@@ -192,6 +194,7 @@ function logPCS(scoreType, scoreData) {
       PCS.previousBalls2Faced = PCS.balls2Faced;
       PCS.previousBat1Runs = PCS.bat1Runs;
       PCS.previousBat2Runs = PCS.bat2Runs;
+      PCS.previousWickets = PCS.wickets;
     }
     PCS.runs = parseInt(PCSScoreArray[0]);
     PCS.wickets = parseInt(PCSScoreArray[1]);
@@ -242,7 +245,9 @@ wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
   PCS.lastMessage.fairDelivery = PCS.previousBall != PCS.ball;
   // create delivery text for screen 
   PCS.lastMessage.delivery = PCS.lastMessage.runs;
-  if(PCS.lastMessage.delivery =='') {
+  if(PCS.wickets - PCS.previousWickets!=0) {
+    PCS.lastMessage.delivery = 'W ' + PCS.decision;
+  } else if(PCS.lastMessage.delivery =='') {
     PCS.lastMessage.delivery = '.';
   } else if(PCS.lastMessage.ballsFaced==0) {
     PCS.lastMessage.delivery += 'wd';
