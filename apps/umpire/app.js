@@ -246,7 +246,8 @@ new over = cov + bnki/bnkj
 wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
 */
   }
-  PCS.lastMessage.runs = PCS.runs - PCS.previousRuns;
+  if(PCS.ball!=0) {
+    PCS.lastMessage.runs = PCS.runs - PCS.previousRuns;
   PCS.lastMessage.ballsFaced = - PCS.previousBalls1Faced + PCS.balls1Faced - PCS.previousBalls2Faced + PCS.balls2Faced;
   PCS.lastMessage.batRuns = - PCS.previousBat1Runs + PCS.bat1Runs - PCS.previousBat2Runs + PCS.bat2Runs;
   PCS.lastMessage.fairDelivery = PCS.previousBall != PCS.ball;
@@ -267,10 +268,11 @@ wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
   } else if(PCS.lastMessage.batRuns==0) {
     PCS.lastMessage.delivery += '(l)b';
   }
+  }
   console.log(scoreType, PCS); 
   PCS.lastMessage.scoreType = scoreType;
   PCS.lastMessage.scoreData = scoreData;
-  if(PCS.ball==0) PCS.lastMessage.delivery = '';
+  
   if(!processing) {
     processing = true; // debounce
     countDown(0);
