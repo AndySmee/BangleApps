@@ -31,6 +31,7 @@ var heartRateEventSeconds = 0;
 var HRM = false;
 var PCS = {
   connected: false,
+  pairs: false,
   overAndBall: '',
   over: 0,
   ball: 0,
@@ -202,6 +203,7 @@ function logPCS(scoreType, scoreData) {
     PCS.runs = parseInt(PCSScoreArray[0]);
     if(PCSScoreArray.length==1) {
       PCS.wickets = 0;
+      PCS.pairs = true;
     } else {
       PCS.wickets = parseInt(PCSScoreArray[1]);
     }
@@ -244,6 +246,10 @@ lb = ovb + bts + b1b/b1k0 + b2k1
 last ball of over = ovb0 + ovr + r/b/lb
 new over = cov + bnki/bnkj
 wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
+rrq runs reqd
+rrr runrate reqd
+btn batting
+fts fielding total score
 */
   }
   if(PCS.ball!=0) {
@@ -404,8 +410,13 @@ function countDown(dir) {
   g.setFontAlign(1,0);
   g.setFont("Vector",26).
    drawString(wicketString, 162, 14, true);
-  g.setFont("Vector",12).
+  if(PCS.pairs==true) {
+    g.setFont("Vector",12).
+   drawString('P', 173, 15, true);
+  } else {
+    g.setFont("Vector",12).
    drawString('\¦\¦\¦', 173, 15, true);
+  }
   // draw battery and heart rate (top-left)
   g.setFontAlign(-1,0);
   var headlineString = 'HR:' + heartRate;
