@@ -30,6 +30,7 @@ var heartRate = '';
 var heartRateEventSeconds = 0;
 var HRM = false;
 var PCS = {
+  connected: false,
   overAndBall: '',
   over: 0,
   ball: 0,
@@ -162,6 +163,7 @@ function formatTimeOfDay(timeSig) {
 
 // log Play-Cricket Scorer app score event from Bluetooth
 function logPCS(scoreType, scoreData) {
+  PCS.connected = true;
   switch(scoreType) {
   case 'OVB': // over ball
     PCS.previousBall = PCS.ball;
@@ -392,7 +394,6 @@ function countDown(dir) {
   g.clear(1);
   // draw wickets fallen (top-right)
   var wicketString = wickets;
-  //if(PCS.decision!='') wicketString = PCS.decision + ' ' + wicketString;
   g.setFontAlign(1,0);
   g.setFont("Vector",26).
    drawString(wicketString, 162, 14, true);
@@ -403,7 +404,7 @@ function countDown(dir) {
   var headlineString = 'HR:' + heartRate;
   if(heartRateEventSeconds <= 0) headlineString = '';
   headlineString = battery + '% ' + headlineString;
-  if(PCS.score!='') headlineString = battery + '% ' + PCS.score + ' ' + PCS.overAndBall + '';
+  if(PCS.connected) headlineString = battery + '% ' + PCS.score + ' ' + PCS.overAndBall + '';
   g.setFont("Vector",16).
     drawString(headlineString, 5, 11, true);
   // draw clock (upper-centre)
@@ -421,7 +422,7 @@ function countDown(dir) {
     BALL_FACED_CHAR.repeat(counter) 
     + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - counter);
   if(timeCalled) ballGraph = '-TIME-';
-  if(PCS.lastMessage.delivery!='') ballGraph = PCS.lastMessage.delivery + ' ' + ballGraph;
+  if(PCS.connected && PCS.lastMessage.delivery!='') ballGraph = PCS.lastMessage.delivery + ' ' + ballGraph;
   g.setFont("Vector",18).drawString(
     ballGraph + ' ' + formatDuration(deadDuration), 93, 166, true);
   // return to wait for next input
@@ -627,4 +628,11 @@ NRF.setServices({
 
 NRF.on('connect', function(addr) {
   Bangle.buzz(1000);
+});
+
+NRF.on('disconnect', function(reason) {
+  Bangle.buzz(1000);
+  PCS.connected = false;
+  addLog((new Date()), over, counter, 
+          "BT Disconnected", reason);
 });
