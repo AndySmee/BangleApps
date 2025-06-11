@@ -426,7 +426,10 @@ function countDown(dir) {
   var headlineString = 'HR:' + heartRate;
   if(heartRateEventSeconds <= 0) headlineString = '';
   headlineString = battery + '% ' + headlineString;
-  if(PCS.connected) headlineString = battery + '% ' + PCS.score + ' ' + PCS.overAndBall + ((PCS.pairs && PCS.fieldingRuns>0)? '(' + PCS.fieldingRuns + ')':'');
+  if(PCS.connected) {
+    headlineString = PCS.score + ' ' + PCS.overAndBall;
+    if(PCS.fieldingRuns>0) headlineString += ' (' + PCS.fieldingRuns + ')';
+  }
   g.setFont("Vector",16).
     drawString(headlineString, 5, 11, true);
   // draw clock (upper-centre)
