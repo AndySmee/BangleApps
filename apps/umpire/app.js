@@ -192,7 +192,7 @@ function logPCS(scoreType, scoreData) {
     break;
   case 'BTS': // batters score
     var PCSScoreArray = scoreData.split('/');
-    if(PCS.lastMessage.scoreType!='OVB') {
+    if(PCS.lastMessage.scoreType!='OVB' && PCS.lastMessage.scoreType!='RRR') {
       PCS.previousBall = PCS.ball;
       PCS.previousRuns = PCS.runs;
       PCS.previousBalls1Faced = PCS.balls1Faced;
