@@ -49,6 +49,7 @@ var PCS = {
   bat2Runs: 0,
   previousBat2Runs: 0,
   score: '',
+  fieldingRuns: 0,
   decision: '',
   lastMessage: {
     scoreType: '',
@@ -232,6 +233,9 @@ function logPCS(scoreType, scoreData) {
     console.log('PCS Wicket' + PCS.decision);
     Bangle.buzz(50); 
     break;
+  case 'FTS': // fielding score
+    PCS.fieldingRuns = parseInt(scoreData);
+    break; 
   default:
     
     // scoreboard encoding
@@ -422,7 +426,7 @@ function countDown(dir) {
   var headlineString = 'HR:' + heartRate;
   if(heartRateEventSeconds <= 0) headlineString = '';
   headlineString = battery + '% ' + headlineString;
-  if(PCS.connected) headlineString = battery + '% ' + PCS.score + ' ' + PCS.overAndBall + '';
+  if(PCS.connected) headlineString = battery + '% ' + PCS.score + ' ' + PCS.overAndBall + ((PCS.pairs && PCS.fieldingRuns>0)? '(' + PCS.fieldingRuns + ')':'');
   g.setFont("Vector",16).
     drawString(headlineString, 5, 11, true);
   // draw clock (upper-centre)
