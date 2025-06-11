@@ -200,7 +200,11 @@ function logPCS(scoreType, scoreData) {
       PCS.previousWickets = PCS.wickets;
     }
     PCS.runs = parseInt(PCSScoreArray[0]);
-    PCS.wickets = parseInt(PCSScoreArray[1]);
+    if(PCSScoreArray.length==1) {
+      PCS.wickets = 0;
+    } else {
+      PCS.wickets = parseInt(PCSScoreArray[1]);
+    }
     PCS.score = scoreData;
     addLog((new Date()), over, counter, 
         "PCS Score", PCS.score);
