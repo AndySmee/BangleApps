@@ -270,7 +270,7 @@ wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
   console.log(scoreType, PCS); 
   PCS.lastMessage.scoreType = scoreType;
   PCS.lastMessage.scoreData = scoreData;
-  if(PCS.overAndBall=='0.0') PCS.lastMessage.delivery = '';
+  if(PCS.ball==0) PCS.lastMessage.delivery = '';
   if(!processing) {
     processing = true; // debounce
     countDown(0);
