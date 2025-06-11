@@ -256,17 +256,17 @@ wicket = ovb/bts + bns0/bnb0 + lwk/lwd + bnkj
   if(PCS.wickets - PCS.previousWickets!=0) {
     PCS.lastMessage.delivery = 'W' + PCS.decision;
   } else if(PCS.lastMessage.delivery =='') {
-    PCS.lastMessage.delivery = '•';
+    PCS.lastMessage.delivery = '.';
   } else if(PCS.lastMessage.ballsFaced==0) {
-    PCS.lastMessage.delivery += '+';
+    PCS.lastMessage.delivery += 'w';
   } else if(!PCS.lastMessage.fairDelivery) {
     if(PCS.lastMessage.batRuns==0) {
-      PCS.lastMessage.delivery += '©';
+      PCS.lastMessage.delivery += 'nb';
     } else {
       PCS.lastMessage.delivery = (PCS.lastMessage.runs - PCS.lastMessage.batRuns) + 'O ' + PCS.lastMessage.batRuns;
     }
   } else if(PCS.lastMessage.batRuns==0) {
-    PCS.lastMessage.delivery += '(l)b';
+    PCS.lastMessage.delivery += 'l/b';
   }
   }
   console.log(scoreType, PCS); 
