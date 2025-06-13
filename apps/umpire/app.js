@@ -641,8 +641,8 @@ showMainMenu(); // ready to play
 
 NRF.disconnect(); // drop BLE connections to allow restart of BLE
 NRF.setAdvertising({}, {
-  name: "Umpire Ball Counter",
-  showName: true,
+  //name: "Umpire Ball Counter",
+  //showName: true,
   discoverable: true , // general discoverable, or limited - default is limited
   connectable: true,  // whether device is connectable - default is true
   scannable : true ,   // whether device can be scanned for scan response packets - default is true
