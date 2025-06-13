@@ -176,6 +176,9 @@ function formatTimeOfDay(timeSig) {
 function logPCS(scoreType, scoreData) {
   PCS.connected = true;
   switch(scoreType) {
+  case 'COV'
+    PCS.overLog.push(PCS.lastMessage.graph);
+    break;
   case 'OVB': // over ball
     PCS.previousBall = PCS.ball;
     var PCSOverAndBallArray = scoreData.split('.');
@@ -497,8 +500,7 @@ function countDown(dir) {
     (!PCS.connected? BALL_FACED_CHAR.repeat(counter) : '')
     + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - counter);
   if(timeCalled) ballGraph = '-TIME-';
-  if(PCS.connected) ballGraph = PCS.overLog.join() + ' ' + ballGraph;
-  // if(PCS.connected) ballGraph = PCS.overLog.join(' ');
+  if(PCS.connected) ballGraph = PCS.lastMessage.delivery + ' ' + PCS.overLog.join('') + ' ' + ballGraph;
   g.setFont("Vector",18).drawString(
     ballGraph + ' ' + formatDuration(deadDuration), 93, 166, true);
   // return to wait for next input
