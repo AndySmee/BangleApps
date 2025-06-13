@@ -66,7 +66,8 @@ var PCS = {
     ballsFaced: 0,
     batRuns: 0
   },
-  signalStrength: 0
+  signalStrength: 0,
+  overLog: []
 };
 
 function toggleHRM() {
@@ -192,6 +193,7 @@ function logPCS(scoreType, scoreData) {
     PCS.previousBat1Runs = PCS.bat1Runs;
     PCS.previousBat2Runs = PCS.bat2Runs;
     PCS.previousWickets = PCS.wickets;
+    PCS.overLog.push(PCS.lastMessage.delivery);
     
     addLog((new Date()), over, counter, 
         "PCS Ball", PCS.overAndBall + ' (' + PCS.signalStrength + 'dB)');   
@@ -215,6 +217,7 @@ function logPCS(scoreType, scoreData) {
       PCS.previousBat1Runs = PCS.bat1Runs;
       PCS.previousBat2Runs = PCS.bat2Runs;
       PCS.previousWickets = PCS.wickets;
+      PCS.overLog.push(PCS.lastMessage.delivery);
     }
     PCS.runs = parseInt(PCSScoreArray[0]);
     if(PCSScoreArray.length==1) {
@@ -483,7 +486,8 @@ function countDown(dir) {
     BALL_FACED_CHAR.repeat(counter) 
     + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - counter);
   if(timeCalled) ballGraph = '-TIME-';
-  if(PCS.connected && PCS.lastMessage.delivery!='') ballGraph = PCS.lastMessage.delivery + ' ' + ballGraph;
+  // if(PCS.connected && PCS.lastMessage.delivery!='') ballGraph = PCS.lastMessage.delivery + ' ' + ballGraph;
+  if(PCS.connected) ballGraph = PCS.overLog.join(' ');
   g.setFont("Vector",18).drawString(
     ballGraph + ' ' + formatDuration(deadDuration), 93, 166, true);
   // return to wait for next input
