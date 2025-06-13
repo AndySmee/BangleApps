@@ -190,12 +190,12 @@ function logPCS(scoreType, scoreData) {
         "PCS Ball", PCS.overAndBall + ' (' + PCS.signalStrength + 'dB)');   
     console.log('PCS OVB', PCS.over, PCS.ball);
     Bangle.buzz(50); 
-    // Start scanning
+    /*// Start scanning
     NRF.setRSSIHandler(function(rssi) {
       PCS.signalStrength = rssi; // -85 (or similar)
       // Stop Scanning
       NRF.setRSSIHandler();
-    }); 
+    }); */
     break;
   case 'BTS': // batters score
     var PCSScoreArray = scoreData.split('/');
@@ -643,8 +643,8 @@ NRF.setAdvertising({}, {
   connectable: true,  // whether device is connectable - default is true
   scannable : true ,   // whether device can be scanned for scan response packets - default is true
   whenConnected : true ,// keep advertising when connected (nRF52 only)
-  interval: 1000,
-  phy: "1mbps, coded"});
+  interval: 1000});//,
+  //phy: "1mbps, coded"});
 
 NRF.setServices({
   "5a0d6a15-b664-4304-8530-3a0ec53e5bc1" : {
