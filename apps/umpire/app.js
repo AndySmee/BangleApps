@@ -13,10 +13,10 @@ const TIMEZONE_OFFSET_HOURS = (new Date()).getTimezoneOffset() / 60;
 const STEP_COUNT_OFFSET = Bangle.getStepCount();
 const BALL_TO_COME_CHAR = '-';
 const BALL_FACED_CHAR = '=';
-const DEBUG = true;
+const DEBUG_TO_SCREEN = true;
 
 // debug to screen option:
-Terminal.setConsole(1);
+if(DEBUG_TO_SCREEN) Terminal.setConsole(1);
 
 // globals
 var processing = true; //debounce to inhibit twist events
@@ -192,7 +192,7 @@ function logPCS(scoreType, scoreData) {
     }
     addLog((new Date()), over, counter, 
         "PCS Ball", PCS.overAndBall + ' (' + PCS.signalStrength + 'dB)');   
-    //console.log('PCS OVB', PCS.over, PCS.ball);
+    if(!DEBUG_TO_SCREEN) console.log('PCS OVB', PCS.over, PCS.ball);
     Bangle.buzz(50); 
     // Start scanning
     NRF.setRSSIHandler(function(rssi) {
@@ -222,7 +222,7 @@ function logPCS(scoreType, scoreData) {
     PCS.score = scoreData;
     addLog((new Date()), over, counter, 
         "PCS Score", PCS.score);
-    //console.log('PCS BTS', PCS.runs, PCS.wickets);
+    if(!DEBUG_TO_SCREEN) console.log('PCS BTS', PCS.runs, PCS.wickets);
     Bangle.buzz(50); 
     break;
   case 'B1S': // bat 1 score
@@ -241,7 +241,7 @@ function logPCS(scoreType, scoreData) {
     PCS.decision = PCS.wickets + ' ' + scoreData;
     addLog((new Date()), over, counter, 
         "PCS Wicket", PCS.decision);
-    //console.log('PCS Wicket' + PCS.decision);
+    if(!DEBUG_TO_SCREEN) console.log('PCS Wicket' + PCS.decision);
     Bangle.buzz(50); 
     break;
   case 'FTS': // fielding score
@@ -290,7 +290,7 @@ fts fielding total score
     PCS.lastMessage.delivery += 'b';
   }
   }
-  //console.log(scoreType, PCS); 
+  if(!DEBUG_TO_SCREEN) console.log(scoreType, PCS); 
   if(scoreType!='RRQ' && scoreType!='RRR') {
     PCS.lastMessage.scoreType = scoreType;
     PCS.lastMessage.scoreData = scoreData;
@@ -311,9 +311,17 @@ function syncToPCS() {
         processing = true; //debounce to inhibit twist events
         wickets = PCS.wickets;
         counter = PCS.ball;
+        PCS.previousBall = PCS.ball;
+        PCS.previousRuns = PCS.runs;
+        PCS.previousBalls1Faced = PCS.balls1Faced;
+        PCS.previousBalls2Faced = PCS.balls2Faced;
+        PCS.previousBat1Runs = PCS.bat1Runs;
+        PCS.previousBat2Runs = PCS.bat2Runs;
+        PCS.previousWickets = PCS.wickets;
+
         over = PCS.over + 1;
         addLog((new Date()), over, counter, 
-          "PCS Sync", 'Wickets: ' + PCS.wickets);
+          "PCS Synced", PCS.overAndBall);
         resumeGame();
       } else {
         E.showPrompt();
@@ -641,14 +649,14 @@ showMainMenu(); // ready to play
 
 NRF.disconnect(); // drop BLE connections to allow restart of BLE
 NRF.setAdvertising({}, {
-  //name: "Umpire Ball Counter",
-  //showName: true,
+  name: "Umpire Ball Counter",
+  showName: true,
   discoverable: true , // general discoverable, or limited - default is limited
   connectable: true,  // whether device is connectable - default is true
   scannable : true ,   // whether device can be scanned for scan response packets - default is true
   whenConnected : true ,// keep advertising when connected (nRF52 only)
-  interval: 1000, //});
-  phy: "1mbps,coded"});
+  interval: 1000});
+ // phy: "1mbps,coded"});
 
 NRF.setServices({
   "5a0d6a15-b664-4304-8530-3a0ec53e5bc1" : {
@@ -658,7 +666,7 @@ NRF.setServices({
       onWrite : function(evt) {
           var typeA = new Uint8Array(evt.data, 0, 3);
           var dataA = new Uint8Array(evt.data, 3);
-          if(DEBUG) console.log(E.toString(typeA), E.toString(dataA));
+          if(DEBUG_TO_SCREEN) console.log(E.toString(typeA), E.toString(dataA));
           logPCS(E.toString(typeA), E.toString(dataA));
       }
     }
@@ -667,10 +675,12 @@ NRF.setServices({
 
 NRF.on('connect', function(addr) {
   Bangle.buzz(1000);
+  if(DEBUG_TO_SCREEN) console.log("BT Connected", addr);
 });
 
 NRF.on('disconnect', function(reason) {
   Bangle.buzz(1000);
   PCS.connected = false;
   addLog((new Date()), over, counter, "BT Disconnected", reason);
+  if(DEBUG_TO_SCREEN) console.log("BT Disconnected", reason);
 });
