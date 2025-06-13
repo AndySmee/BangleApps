@@ -59,7 +59,8 @@ var PCS = {
     runs: 0,
     ballsFaced: 0,
     batRuns: 0
-  }
+  },
+  signalStrength: 0
 };
 
 function toggleHRM() {
@@ -186,7 +187,7 @@ function logPCS(scoreType, scoreData) {
     PCS.previousWickets = PCS.wickets;
     }
     addLog((new Date()), over, counter, 
-        "PCS Ball", PCS.overAndBall);   
+        "PCS Ball", PCS.overAndBall + ' (' + PCS.signalStrength + 'dB)');   
     console.log('PCS OVB', PCS.over, PCS.ball);
     Bangle.buzz(50); 
     break;
@@ -656,9 +657,7 @@ NRF.on('connect', function(addr) {
   Bangle.buzz(1000);
   // Start scanning
   NRF.setRSSIHandler(function(rssi) {
-    console.log(rssi); // prints -85 (or similar)
-    addLog((new Date()), over, counter, 
-          "BT Signal", rssi);
+    PCS.signalStrength = rssi; // -85 (or similar)
   });
 });
 
