@@ -302,23 +302,23 @@ fts fielding total score
         PCS.lastMessage.delivery = 'W?';
         PCS.lastMessage.graph = 'W';
       } else {
-        PCS.lastMessage.delivery = '.';
-        PCS.lastMessage.graph = '.';
+        PCS.lastMessage.delivery = '*';
+        PCS.lastMessage.graph = '*';
       }
     } else if(PCS.lastMessage.ballsFaced==0) {
-      PCS.lastMessage.delivery += 'w';
+      PCS.lastMessage.delivery += 'wd';
       PCS.lastMessage.graph = '+';
     } else if(!PCS.lastMessage.fairDelivery) {
       if(PCS.lastMessage.batRuns==0) {
         PCS.lastMessage.delivery += 'nb';
         PCS.lastMessage.graph = 'O';
       } else {
-        PCS.lastMessage.delivery = (PCS.lastMessage.runs - PCS.lastMessage.batRuns) + 'nb+' + PCS.lastMessage.batRuns;
+        PCS.lastMessage.delivery = (PCS.lastMessage.runs - PCS.lastMessage.batRuns) + 'nb' + PCS.lastMessage.batRuns + 'r';
         PCS.lastMessage.graph = 'O';
       }
     } else if(PCS.lastMessage.batRuns==0) {
       PCS.lastMessage.delivery += '?b';
-      PCS.lastMessage.graph = '^';
+      PCS.lastMessage.graph = 'b';
     }
   }
   if(DEBUG_TO=='console') console.log(scoreType, scoreData, PCS); 
@@ -503,7 +503,7 @@ function countDown(dir) {
     if(timeCalled) ballGraph = '-TIME-';
   } else {
     ballGraph =  PCS.overLog.join('') + ' '
-      + PCS.lastMessage.delivery + ' ' + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - PCS.ball);
+      + PCS.lastMessage.delivery; // + ' ' + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - PCS.ball);
   }
   
   g.setFont("Vector",18).drawString(
