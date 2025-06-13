@@ -89,7 +89,7 @@ function getBattery() {
   if(batteryPercents.length > 10) batteryPercents.shift();
   return Math.round(batteryPercents.reduce((avg,e,i,arr)=>avg+e/arr.length,0));
 }
-
+ 
 // process heart rate monitor event 
 // each second (approx.)
 function updateHeartRate(h) {
