@@ -648,7 +648,7 @@ NRF.setAdvertising({}, {
   scannable : true ,   // whether device can be scanned for scan response packets - default is true
   whenConnected : true ,// keep advertising when connected (nRF52 only)
   interval: 1000, //});
-  phy: "coded"});
+  phy: "1mbps, coded"});
 
 NRF.setServices({
   "5a0d6a15-b664-4304-8530-3a0ec53e5bc1" : {
