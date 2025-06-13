@@ -192,7 +192,7 @@ function logPCS(scoreType, scoreData) {
     break;
   case 'BTS': // batters score
     var PCSScoreArray = scoreData.split('/');
-    if(PCS.lastMessage.scoreType!='OVB' && PCS.lastMessage.scoreType!='RRR') {
+    if(PCS.ball==PCS.previousBall) {
       PCS.previousBall = PCS.ball;
       PCS.previousRuns = PCS.runs;
       PCS.previousBalls1Faced = PCS.balls1Faced;
@@ -654,6 +654,12 @@ NRF.setServices({
 
 NRF.on('connect', function(addr) {
   Bangle.buzz(1000);
+  // Start scanning
+  NRF.setRSSIHandler(function(rssi) {
+    console.log(rssi); // prints -85 (or similar)
+    addLog((new Date()), over, counter, 
+          "BT Signal", rssi);
+  });
 });
 
 NRF.on('disconnect', function(reason) {
@@ -661,4 +667,6 @@ NRF.on('disconnect', function(reason) {
   PCS.connected = false;
   addLog((new Date()), over, counter, 
           "BT Disconnected", reason);
+    // Stop Scanning
+  NRF.setRSSIHandler();
 });
