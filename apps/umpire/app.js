@@ -176,7 +176,7 @@ function formatTimeOfDay(timeSig) {
 function logPCS(scoreType, scoreData) {
   PCS.connected = true;
   switch(scoreType) {
-  case 'COV'
+  case 'COV':
     PCS.overLog.push(PCS.lastMessage.graph);
     break;
   case 'OVB': // over ball
