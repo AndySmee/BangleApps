@@ -52,6 +52,8 @@ var PCS = {
   previousBat1Runs: 0,
   bat2Runs: 0,
   previousBat2Runs: 0,
+  onStrike: 1,
+  previousOnStrike: 1,
   score: '',
   fieldingRuns: 0,
   decision: '',
@@ -186,6 +188,7 @@ function logPCS(scoreType, scoreData) {
     PCS.previousRuns = PCS.runs;
     PCS.previousBalls1Faced = PCS.balls1Faced;
     PCS.previousBalls2Faced = PCS.balls2Faced;
+    PCS.previousOnStrike = PCS.onStrike;
     PCS.previousBat1Runs = PCS.bat1Runs;
     PCS.previousBat2Runs = PCS.bat2Runs;
     PCS.previousWickets = PCS.wickets;
@@ -206,6 +209,7 @@ function logPCS(scoreType, scoreData) {
     if(PCS.lastMessage.scoreType!='OVB') {
       PCS.previousBall = PCS.ball;
       PCS.previousRuns = PCS.runs;
+      PCS.previousOnStrike = PCS.onStrike;
       PCS.previousBalls1Faced = PCS.balls1Faced;
       PCS.previousBalls2Faced = PCS.balls2Faced;
       PCS.previousBat1Runs = PCS.bat1Runs;
@@ -237,6 +241,12 @@ function logPCS(scoreType, scoreData) {
   case 'B2B': // bat 2 balls faced
     PCS.balls2Faced = parseInt(scoreData);
     break; 
+  case 'B1K': // bat 1 on strike?
+    PCS.onStrike = (scoreData=='1')? 1: PCS.onStrike;
+    break;
+  case 'B2K': // bat 2 on strike?
+    PCS.onStrike = (scoreData=='1')? 2: PCS.onStrike;
+    break; 
   case 'LWD': // batters score
     PCS.decision = PCS.wickets + ' ' + scoreData;
     addLog((new Date()), over, counter, 
@@ -267,31 +277,35 @@ btn batting
 fts fielding total score
 */
   }
-  if(PCS.ball!=0 && scoreType!='OVB') {
+  if(scoreType!='OVB') {
     PCS.lastMessage.runs = PCS.runs - PCS.previousRuns;
-  PCS.lastMessage.ballsFaced = - PCS.previousBalls1Faced + PCS.balls1Faced - PCS.previousBalls2Faced + PCS.balls2Faced;
-  PCS.lastMessage.batRuns = - PCS.previousBat1Runs + PCS.bat1Runs - PCS.previousBat2Runs + PCS.bat2Runs;
-  PCS.lastMessage.fairDelivery = PCS.previousBall != PCS.ball;
-  // create delivery text for screen 
-  PCS.lastMessage.delivery = PCS.lastMessage.runs;
-  if(PCS.wickets - PCS.previousWickets!=0) {
-    PCS.lastMessage.delivery = 'W' + PCS.decision;
-  } else if(PCS.lastMessage.delivery =='') {
-    PCS.lastMessage.delivery = '.';
-  } else if(PCS.lastMessage.ballsFaced==0) {
-    PCS.lastMessage.delivery += 'w';
-  } else if(!PCS.lastMessage.fairDelivery) {
-    if(PCS.lastMessage.batRuns==0) {
-      PCS.lastMessage.delivery += 'nb';
-    } else {
-      PCS.lastMessage.delivery = (PCS.lastMessage.runs - PCS.lastMessage.batRuns) + 'nb+' + PCS.lastMessage.batRuns;
+    PCS.lastMessage.ballsFaced = - PCS.previousBalls1Faced + PCS.balls1Faced - PCS.previousBalls2Faced + PCS.balls2Faced;
+    PCS.lastMessage.batRuns = - PCS.previousBat1Runs + PCS.bat1Runs - PCS.previousBat2Runs + PCS.bat2Runs;
+    PCS.lastMessage.fairDelivery = PCS.previousBall != PCS.ball;
+    // create delivery text for screen 
+    PCS.lastMessage.delivery = PCS.lastMessage.runs;
+    if(PCS.wickets - PCS.previousWickets!=0) {
+      PCS.lastMessage.delivery = 'W' + PCS.decision;
+    } else if(PCS.lastMessage.delivery =='') {
+      if(PCS.previousOnStrike!=PCS.onStrike && PCS.ball!=0) {
+        PCS.lastMessage.delivery = 'W?'
+      } else {
+        PCS.lastMessage.delivery = '.';
+      }
+    } else if(PCS.lastMessage.ballsFaced==0) {
+      PCS.lastMessage.delivery += 'w';
+    } else if(!PCS.lastMessage.fairDelivery) {
+      if(PCS.lastMessage.batRuns==0) {
+        PCS.lastMessage.delivery += 'nb';
+      } else {
+        PCS.lastMessage.delivery = (PCS.lastMessage.runs - PCS.lastMessage.batRuns) + 'nb+' + PCS.lastMessage.batRuns;
+      }
+    } else if(PCS.lastMessage.batRuns==0) {
+    PCS.lastMessage.delivery += '?b';
     }
-  } else if(PCS.lastMessage.batRuns==0) {
-    PCS.lastMessage.delivery += 'b';
   }
-  }
-  if(DEBUG_TO=='console') console.log(scoreType, PCS); 
-  if(scoreType!='RRQ' && scoreType!='RRR') {
+  if(DEBUG_TO=='console') console.log(scoreType, scoreData, PCS); 
+  if(scoreType!='RRQ' && scoreType!='RRR' && scoreType!='OVR') {
     PCS.lastMessage.scoreType = scoreType;
     PCS.lastMessage.scoreData = scoreData;
   }
@@ -313,6 +327,7 @@ function syncToPCS() {
         counter = PCS.ball;
         PCS.previousBall = PCS.ball;
         PCS.previousRuns = PCS.runs;
+        PCS.previousOnStrike = PCS.onStrike;
         PCS.previousBalls1Faced = PCS.balls1Faced;
         PCS.previousBalls2Faced = PCS.balls2Faced;
         PCS.previousBat1Runs = PCS.bat1Runs;
