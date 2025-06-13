@@ -14,6 +14,9 @@ const STEP_COUNT_OFFSET = Bangle.getStepCount();
 const BALL_TO_COME_CHAR = '-';
 const BALL_FACED_CHAR = '=';
 
+// debug to screen option:
+Terminal.setConsole(1)
+
 // globals
 var processing = true; //debounce to inhibit twist events
 var wickets = 0;
@@ -656,7 +659,7 @@ NRF.setServices({
           var typeA = new Uint8Array(evt.data, 0, 3);
           var dataA = new Uint8Array(evt.data, 3);
           //console.log(E.toString(typeA), E.toString(dataA));
-          logPCS(E.toString(typeA), E.toString(dataA));
+          //logPCS(E.toString(typeA), E.toString(dataA));
         } catch {
           g.drawString(e, 10, 10);
         }
@@ -672,6 +675,5 @@ NRF.on('connect', function(addr) {
 NRF.on('disconnect', function(reason) {
   Bangle.buzz(1000);
   PCS.connected = false;
-  addLog((new Date()), over, counter, 
-          "BT Disconnected", reason);
+  //addLog((new Date()), over, counter, "BT Disconnected", reason);
 });
