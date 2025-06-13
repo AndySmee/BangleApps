@@ -496,11 +496,16 @@ function countDown(dir) {
   g.setFont("Vector",80).
     drawString(ballString, 93, 120, true);
   // draw ball graph and elapsed time
-  var ballGraph = 
-    (!PCS.connected? BALL_FACED_CHAR.repeat(counter) : '')
+  var ballGraph = ''
+  if(!PCS.connected) {
+    BALL_FACED_CHAR.repeat(counter)
     + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - counter);
-  if(timeCalled) ballGraph = '-TIME-';
-  if(PCS.connected) ballGraph = PCS.lastMessage.delivery + ' ' + PCS.overLog.join('') + ' ' + ballGraph;
+    if(timeCalled) ballGraph = '-TIME-';
+  } else {
+    ballGraph =  PCS.overLog.join('') + ' '
+      + PCS.lastMessage.delivery + ' ' + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - PCS.ball);
+  }
+  
   g.setFont("Vector",18).drawString(
     ballGraph + ' ' + formatDuration(deadDuration), 93, 166, true);
   // return to wait for next input
