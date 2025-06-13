@@ -497,7 +497,7 @@ function countDown(dir) {
     (!PCS.connected? BALL_FACED_CHAR.repeat(counter) : '')
     + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - counter);
   if(timeCalled) ballGraph = '-TIME-';
-  if(PCS.connected) ballGraph = PCS.lastMessage.overLog.join() + ' ' + ballGraph;
+  if(PCS.connected) ballGraph = PCS.overLog.join() + ' ' + ballGraph;
   // if(PCS.connected) ballGraph = PCS.overLog.join(' ');
   g.setFont("Vector",18).drawString(
     ballGraph + ' ' + formatDuration(deadDuration), 93, 166, true);
