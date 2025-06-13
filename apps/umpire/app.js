@@ -655,14 +655,10 @@ NRF.setServices({
       value : ["BTS100/9"], 
       writable : true,
       onWrite : function(evt) {
-        try {
           var typeA = new Uint8Array(evt.data, 0, 3);
           var dataA = new Uint8Array(evt.data, 3);
-          console.log(E.toString(typeA), E.toString(dataA));
-          //logPCS(E.toString(typeA), E.toString(dataA));
-        } catch {
-          g.drawString(e, 10, 10);
-        }
+          //console.log(E.toString(typeA), E.toString(dataA));
+          logPCS(E.toString(typeA), E.toString(dataA));
       }
     }
   }
@@ -675,5 +671,5 @@ NRF.on('connect', function(addr) {
 NRF.on('disconnect', function(reason) {
   Bangle.buzz(1000);
   PCS.connected = false;
-  //addLog((new Date()), over, counter, "BT Disconnected", reason);
+  addLog((new Date()), over, counter, "BT Disconnected", reason);
 });
