@@ -658,7 +658,7 @@ NRF.setServices({
         try {
           var typeA = new Uint8Array(evt.data, 0, 3);
           var dataA = new Uint8Array(evt.data, 3);
-          //console.log(E.toString(typeA), E.toString(dataA));
+          console.log(E.toString(typeA), E.toString(dataA));
           //logPCS(E.toString(typeA), E.toString(dataA));
         } catch {
           g.drawString(e, 10, 10);
