@@ -184,7 +184,7 @@ function logPCS(scoreType, scoreData) {
     } else {
       PCS.ball = parseInt(PCSOverAndBallArray[1]);
       PCS.overAndBall = scoreData;
-    
+    }
     PCS.previousRuns = PCS.runs;
     PCS.previousBalls1Faced = PCS.balls1Faced;
     PCS.previousBalls2Faced = PCS.balls2Faced;
@@ -192,7 +192,7 @@ function logPCS(scoreType, scoreData) {
     PCS.previousBat1Runs = PCS.bat1Runs;
     PCS.previousBat2Runs = PCS.bat2Runs;
     PCS.previousWickets = PCS.wickets;
-    }
+    
     addLog((new Date()), over, counter, 
         "PCS Ball", PCS.overAndBall + ' (' + PCS.signalStrength + 'dB)');   
     if(DEBUG_TO=='console') console.log('PCS OVB', PCS.over, PCS.ball);
