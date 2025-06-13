@@ -61,6 +61,7 @@ var PCS = {
     scoreType: '',
     scoreData: '',
     delivery: '',
+    graph: '',
     fairDelivery: false,
     runs: 0,
     ballsFaced: 0,
@@ -193,7 +194,7 @@ function logPCS(scoreType, scoreData) {
     PCS.previousBat1Runs = PCS.bat1Runs;
     PCS.previousBat2Runs = PCS.bat2Runs;
     PCS.previousWickets = PCS.wickets;
-    PCS.overLog.push(PCS.lastMessage.delivery);
+    PCS.overLog.push(PCS.lastMessage.graph);
     
     addLog((new Date()), over, counter, 
         "PCS Ball", PCS.overAndBall + ' (' + PCS.signalStrength + 'dB)');   
@@ -217,7 +218,7 @@ function logPCS(scoreType, scoreData) {
       PCS.previousBat1Runs = PCS.bat1Runs;
       PCS.previousBat2Runs = PCS.bat2Runs;
       PCS.previousWickets = PCS.wickets;
-      PCS.overLog.push(PCS.lastMessage.delivery);
+      PCS.overLog.push(PCS.lastMessage.graph);
     }
     PCS.runs = parseInt(PCSScoreArray[0]);
     if(PCSScoreArray.length==1) {
@@ -285,26 +286,34 @@ fts fielding total score
     PCS.lastMessage.ballsFaced = - PCS.previousBalls1Faced + PCS.balls1Faced - PCS.previousBalls2Faced + PCS.balls2Faced;
     PCS.lastMessage.batRuns = - PCS.previousBat1Runs + PCS.bat1Runs - PCS.previousBat2Runs + PCS.bat2Runs;
     PCS.lastMessage.fairDelivery = PCS.previousBall != PCS.ball;
-    // create delivery text for screen 
+    // create delivery text for screen & graph
     PCS.lastMessage.delivery = PCS.lastMessage.runs;
+    PCS.lastMessage.graph = PCS.lastMessage.runs;
     if(PCS.wickets - PCS.previousWickets!=0) {
       PCS.lastMessage.delivery = 'W' + PCS.decision;
+      PCS.lastMessage.graph = 'W';
     } else if(PCS.lastMessage.delivery =='') {
       if(PCS.previousOnStrike!=PCS.onStrike && PCS.ball!=0) {
-        PCS.lastMessage.delivery = 'W?'
+        PCS.lastMessage.delivery = 'W?';
+        PCS.lastMessage.graph = 'W';
       } else {
         PCS.lastMessage.delivery = '.';
+        PCS.lastMessage.graph = '.';
       }
     } else if(PCS.lastMessage.ballsFaced==0) {
       PCS.lastMessage.delivery += 'w';
+      PCS.lastMessage.graph = '+';
     } else if(!PCS.lastMessage.fairDelivery) {
       if(PCS.lastMessage.batRuns==0) {
         PCS.lastMessage.delivery += 'nb';
+        PCS.lastMessage.graph = 'O';
       } else {
         PCS.lastMessage.delivery = (PCS.lastMessage.runs - PCS.lastMessage.batRuns) + 'nb+' + PCS.lastMessage.batRuns;
+        PCS.lastMessage.graph = 'O';
       }
     } else if(PCS.lastMessage.batRuns==0) {
-    PCS.lastMessage.delivery += '?b';
+      PCS.lastMessage.delivery += '?b';
+      PCS.lastMessage.graph = '^';
     }
   }
   if(DEBUG_TO=='console') console.log(scoreType, scoreData, PCS); 
@@ -483,11 +492,11 @@ function countDown(dir) {
     drawString(ballString, 93, 120, true);
   // draw ball graph and elapsed time
   var ballGraph = 
-    BALL_FACED_CHAR.repeat(counter) 
+    (!PCS.connected? BALL_FACED_CHAR.repeat(counter) : '')
     + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - counter);
   if(timeCalled) ballGraph = '-TIME-';
-  // if(PCS.connected && PCS.lastMessage.delivery!='') ballGraph = PCS.lastMessage.delivery + ' ' + ballGraph;
-  if(PCS.connected) ballGraph = PCS.overLog.join(' ');
+  if(PCS.connected) ballGraph = PCS.lastMessage.overLog.join() + ' ' + ballGraph;
+  // if(PCS.connected) ballGraph = PCS.overLog.join(' ');
   g.setFont("Vector",18).drawString(
     ballGraph + ' ' + formatDuration(deadDuration), 93, 166, true);
   // return to wait for next input
