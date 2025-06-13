@@ -13,9 +13,10 @@ const TIMEZONE_OFFSET_HOURS = (new Date()).getTimezoneOffset() / 60;
 const STEP_COUNT_OFFSET = Bangle.getStepCount();
 const BALL_TO_COME_CHAR = '-';
 const BALL_FACED_CHAR = '=';
+const DEBUG = true;
 
 // debug to screen option:
-//Terminal.setConsole(1);
+Terminal.setConsole(1);
 
 // globals
 var processing = true; //debounce to inhibit twist events
@@ -191,14 +192,14 @@ function logPCS(scoreType, scoreData) {
     }
     addLog((new Date()), over, counter, 
         "PCS Ball", PCS.overAndBall + ' (' + PCS.signalStrength + 'dB)');   
-    console.log('PCS OVB', PCS.over, PCS.ball);
+    //console.log('PCS OVB', PCS.over, PCS.ball);
     Bangle.buzz(50); 
-    /*// Start scanning
+    // Start scanning
     NRF.setRSSIHandler(function(rssi) {
       PCS.signalStrength = rssi; // -85 (or similar)
       // Stop Scanning
       NRF.setRSSIHandler();
-    }); */
+    });
     break;
   case 'BTS': // batters score
     var PCSScoreArray = scoreData.split('/');
@@ -221,7 +222,7 @@ function logPCS(scoreType, scoreData) {
     PCS.score = scoreData;
     addLog((new Date()), over, counter, 
         "PCS Score", PCS.score);
-    console.log('PCS BTS', PCS.runs, PCS.wickets);
+    //console.log('PCS BTS', PCS.runs, PCS.wickets);
     Bangle.buzz(50); 
     break;
   case 'B1S': // bat 1 score
@@ -240,7 +241,7 @@ function logPCS(scoreType, scoreData) {
     PCS.decision = PCS.wickets + ' ' + scoreData;
     addLog((new Date()), over, counter, 
         "PCS Wicket", PCS.decision);
-    console.log('PCS Wicket' + PCS.decision);
+    //console.log('PCS Wicket' + PCS.decision);
     Bangle.buzz(50); 
     break;
   case 'FTS': // fielding score
@@ -289,7 +290,7 @@ fts fielding total score
     PCS.lastMessage.delivery += 'b';
   }
   }
-  console.log(scoreType, PCS); 
+  //console.log(scoreType, PCS); 
   if(scoreType!='RRQ' && scoreType!='RRR') {
     PCS.lastMessage.scoreType = scoreType;
     PCS.lastMessage.scoreData = scoreData;
@@ -657,7 +658,7 @@ NRF.setServices({
       onWrite : function(evt) {
           var typeA = new Uint8Array(evt.data, 0, 3);
           var dataA = new Uint8Array(evt.data, 3);
-          //console.log(E.toString(typeA), E.toString(dataA));
+          if(DEBUG) console.log(E.toString(typeA), E.toString(dataA));
           logPCS(E.toString(typeA), E.toString(dataA));
       }
     }
