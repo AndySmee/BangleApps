@@ -193,7 +193,7 @@ function logPCS(scoreType, scoreData) {
     break;
   case 'BTS': // batters score
     var PCSScoreArray = scoreData.split('/');
-    if(PCS.ball==PCS.previousBall) {
+    if(PCS.lastMessage.scoreType!='OVB') {
       PCS.previousBall = PCS.ball;
       PCS.previousRuns = PCS.runs;
       PCS.previousBalls1Faced = PCS.balls1Faced;
@@ -257,7 +257,7 @@ btn batting
 fts fielding total score
 */
   }
-  if(PCS.ball!=0) {
+  if(PCS.ball!=0 && scoreType!='OVB') {
     PCS.lastMessage.runs = PCS.runs - PCS.previousRuns;
   PCS.lastMessage.ballsFaced = - PCS.previousBalls1Faced + PCS.balls1Faced - PCS.previousBalls2Faced + PCS.balls2Faced;
   PCS.lastMessage.batRuns = - PCS.previousBat1Runs + PCS.bat1Runs - PCS.previousBat2Runs + PCS.bat2Runs;
@@ -281,8 +281,10 @@ fts fielding total score
   }
   }
   console.log(scoreType, PCS); 
-  PCS.lastMessage.scoreType = scoreType;
-  PCS.lastMessage.scoreData = scoreData;
+  if(scoreType!='RRQ' && scoreType!='RRR') {
+    PCS.lastMessage.scoreType = scoreType;
+    PCS.lastMessage.scoreData = scoreData;
+  }
   
   if(!processing) {
     processing = true; // debounce
