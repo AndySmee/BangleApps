@@ -194,6 +194,7 @@ function logPCS(scoreType, scoreData) {
     PCS.previousBat1Runs = PCS.bat1Runs;
     PCS.previousBat2Runs = PCS.bat2Runs;
     PCS.previousWickets = PCS.wickets;
+    if(PCS.lastMessage.scoreType=='COV') PCS.overLog = [];
     PCS.overLog.push(PCS.lastMessage.graph);
     
     addLog((new Date()), over, counter, 
@@ -218,6 +219,7 @@ function logPCS(scoreType, scoreData) {
       PCS.previousBat1Runs = PCS.bat1Runs;
       PCS.previousBat2Runs = PCS.bat2Runs;
       PCS.previousWickets = PCS.wickets;
+      if(PCS.lastMessage.scoreType=='COV') PCS.overLog = [];
       PCS.overLog.push(PCS.lastMessage.graph);
     }
     PCS.runs = parseInt(PCSScoreArray[0]);
