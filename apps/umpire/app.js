@@ -15,7 +15,7 @@ const BALL_TO_COME_CHAR = '-';
 const BALL_FACED_CHAR = '=';
 
 // debug to screen option:
-Terminal.setConsole(1)
+//Terminal.setConsole(1);
 
 // globals
 var processing = true; //debounce to inhibit twist events
