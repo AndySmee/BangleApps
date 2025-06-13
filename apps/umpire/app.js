@@ -658,7 +658,7 @@ NRF.on('connect', function(addr) {
   // Start scanning
   NRF.setRSSIHandler(function(rssi) {
     PCS.signalStrength = rssi; // -85 (or similar)
-  });
+  }); 
 });
 
 NRF.on('disconnect', function(reason) {
