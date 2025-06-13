@@ -68,7 +68,7 @@ var PCS = {
     batRuns: 0
   },
   signalStrength: 0,
-  overLog: []
+  overLog: [] 
 };
 
 function toggleHRM() {
