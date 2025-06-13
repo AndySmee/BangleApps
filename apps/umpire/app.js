@@ -13,10 +13,10 @@ const TIMEZONE_OFFSET_HOURS = (new Date()).getTimezoneOffset() / 60;
 const STEP_COUNT_OFFSET = Bangle.getStepCount();
 const BALL_TO_COME_CHAR = '-';
 const BALL_FACED_CHAR = '=';
-const DEBUG_TO_SCREEN = true;
+const DEBUG_TO = 'console'; // console/screen/none
 
 // debug to screen option:
-if(DEBUG_TO_SCREEN) Terminal.setConsole(1);
+if(DEBUG_TO=='screen') Terminal.setConsole(1);
 
 // globals
 var processing = true; //debounce to inhibit twist events
@@ -192,7 +192,7 @@ function logPCS(scoreType, scoreData) {
     }
     addLog((new Date()), over, counter, 
         "PCS Ball", PCS.overAndBall + ' (' + PCS.signalStrength + 'dB)');   
-    if(!DEBUG_TO_SCREEN) console.log('PCS OVB', PCS.over, PCS.ball);
+    if(DEBUG_TO=='console') console.log('PCS OVB', PCS.over, PCS.ball);
     Bangle.buzz(50); 
     // Start scanning
     NRF.setRSSIHandler(function(rssi) {
@@ -222,7 +222,7 @@ function logPCS(scoreType, scoreData) {
     PCS.score = scoreData;
     addLog((new Date()), over, counter, 
         "PCS Score", PCS.score);
-    if(!DEBUG_TO_SCREEN) console.log('PCS BTS', PCS.runs, PCS.wickets);
+    if(DEBUG_TO=='console') console.log('PCS BTS', PCS.runs, PCS.wickets);
     Bangle.buzz(50); 
     break;
   case 'B1S': // bat 1 score
@@ -241,7 +241,7 @@ function logPCS(scoreType, scoreData) {
     PCS.decision = PCS.wickets + ' ' + scoreData;
     addLog((new Date()), over, counter, 
         "PCS Wicket", PCS.decision);
-    if(!DEBUG_TO_SCREEN) console.log('PCS Wicket' + PCS.decision);
+    if(DEBUG_TO=='console') console.log('PCS Wicket' + PCS.decision);
     Bangle.buzz(50); 
     break;
   case 'FTS': // fielding score
@@ -290,7 +290,7 @@ fts fielding total score
     PCS.lastMessage.delivery += 'b';
   }
   }
-  if(!DEBUG_TO_SCREEN) console.log(scoreType, PCS); 
+  if(DEBUG_TO=='console') console.log(scoreType, PCS); 
   if(scoreType!='RRQ' && scoreType!='RRR') {
     PCS.lastMessage.scoreType = scoreType;
     PCS.lastMessage.scoreData = scoreData;
@@ -553,7 +553,7 @@ function showMainMenu() {
       scrollMenuItems.push(/*LANG*/"Recall Batter");
     scrollMenuItems.push("Call Time");
     scrollMenuItems.push("New Innings");
-    if(PCS.wickets>=0 && PCS.over>=0) 
+    if(PCS.connected) 
       scrollMenuItems.push("PCS Sync");
     if(!HRM) 
       scrollMenuItems.push("Start HRM");
@@ -632,7 +632,7 @@ function newInnings() {
 var file = require("Storage").open("matchlog.csv","a");
 // save state on exit TODO WIP
 E.on("kill", function() {
-  console.log("Umpire app closed at " + (over-1) + "." + counter);
+  if(DEBUG_TO=='console') console.log("Umpire app closed at " + (over-1) + "." + counter);
 });
 // set up twist refresh once only 
 Bangle.on('twist', function() { 
@@ -666,7 +666,7 @@ NRF.setServices({
       onWrite : function(evt) {
           var typeA = new Uint8Array(evt.data, 0, 3);
           var dataA = new Uint8Array(evt.data, 3);
-          if(DEBUG_TO_SCREEN) console.log(E.toString(typeA), E.toString(dataA));
+          if(DEBUG_TO=='screen') console.log(E.toString(typeA), E.toString(dataA));
           logPCS(E.toString(typeA), E.toString(dataA));
       }
     }
@@ -675,12 +675,12 @@ NRF.setServices({
 
 NRF.on('connect', function(addr) {
   Bangle.buzz(1000);
-  if(DEBUG_TO_SCREEN) console.log("BT Connected", addr);
+  if(DEBUG_TO=='screen') console.log("BT Connected", addr);
 });
 
 NRF.on('disconnect', function(reason) {
   Bangle.buzz(1000);
   PCS.connected = false;
   addLog((new Date()), over, counter, "BT Disconnected", reason);
-  if(DEBUG_TO_SCREEN) console.log("BT Disconnected", reason);
+  if(DEBUG_TO=='screen') console.log("BT Disconnected", reason);
 });
