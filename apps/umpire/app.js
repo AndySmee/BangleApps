@@ -177,7 +177,11 @@ function logPCS(scoreType, scoreData) {
   PCS.connected = true;
   switch(scoreType) {
   case 'COV':
-    PCS.overLog.push(PCS.lastMessage.graph);
+    // PCS.overLog.push(PCS.lastMessage.graph);
+    addLog((new Date()), over, counter, 
+        "PCS Over", PCS.overLog);
+    PCS.overLog = [];
+    PCS.lastMessage.delivery = '';
     break;
   case 'OVB': // over ball
     PCS.previousBall = PCS.ball;
@@ -197,7 +201,7 @@ function logPCS(scoreType, scoreData) {
     PCS.previousBat1Runs = PCS.bat1Runs;
     PCS.previousBat2Runs = PCS.bat2Runs;
     PCS.previousWickets = PCS.wickets;
-    if(PCS.lastMessage.scoreType=='COV') PCS.overLog = [];
+    //if(PCS.lastMessage.scoreType=='COV') PCS.overLog = [];
     PCS.overLog.push(PCS.lastMessage.graph);
     
     addLog((new Date()), over, counter, 
