@@ -297,7 +297,7 @@ fts fielding total score
     PCS.lastMessage.fairDelivery = PCS.previousBall != PCS.ball;
     // create delivery text for screen & graph
     PCS.lastMessage.delivery = PCS.lastMessage.runs;
-    PCS.lastMessage.graph = PCS.lastMessage.runs;
+    PCS.lastMessage.graph = BALL_FACED_CHAR;//PCS.lastMessage.runs;
     if(PCS.wickets - PCS.previousWickets!=0) {
       PCS.lastMessage.delivery = 'W' + PCS.decision;
       PCS.lastMessage.graph = 'W';
@@ -307,7 +307,7 @@ fts fielding total score
         PCS.lastMessage.graph = 'W';
       } else {
         PCS.lastMessage.delivery = '*';
-        PCS.lastMessage.graph = '*';
+        PCS.lastMessage.graph = BALL_FACED_CHAR; //'*';
       }
     } else if(PCS.lastMessage.ballsFaced==0) {
       PCS.lastMessage.delivery += 'wd';
@@ -322,7 +322,7 @@ fts fielding total score
       }
     } else if(PCS.lastMessage.batRuns==0) {
       PCS.lastMessage.delivery += '?b';
-      PCS.lastMessage.graph = 'b';
+      PCS.lastMessage.graph = BALL_FACED_CHAR;// 'b';
     }
   }
   if(DEBUG_TO=='console') console.log(scoreType, scoreData, PCS); 
@@ -506,8 +506,12 @@ function countDown(dir) {
     + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - counter);
     if(timeCalled) ballGraph = '-TIME-';
   } else {
-    ballGraph =  PCS.overLog.join('') + ' '
-      + PCS.lastMessage.delivery; // + ' ' + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - PCS.ball);
+    ballGraph =  
+      PCS.lastMessage.delivery + ' '
+      PCS.overLog.join('')
+        //+ ' '
+     // + PCS.lastMessage.delivery; 
+     + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - PCS.ball);
   }
   
   g.setFont("Vector",18).drawString(
