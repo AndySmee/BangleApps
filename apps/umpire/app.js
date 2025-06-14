@@ -290,7 +290,7 @@ btn batting
 fts fielding total score
 */
   }
-  if(scoreType!='OVB') {
+  if(scoreType!='OVB' && scoreType!='COV') {
     PCS.lastMessage.runs = PCS.runs - PCS.previousRuns;
     PCS.lastMessage.ballsFaced = - PCS.previousBalls1Faced + PCS.balls1Faced - PCS.previousBalls2Faced + PCS.balls2Faced;
     PCS.lastMessage.batRuns = - PCS.previousBat1Runs + PCS.bat1Runs - PCS.previousBat2Runs + PCS.bat2Runs;
