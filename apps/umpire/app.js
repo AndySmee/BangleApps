@@ -510,8 +510,7 @@ function countDown(dir) {
     ballGraph =  
       PCS.lastMessage.delivery + ' '
       + PCS.overLog.join('')  //+ ' ' // + PCS.lastMessage.delivery; 
-      + PCS.lastMessage.graph
-      + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - PCS.ball);
+      + BALL_FACED_CHAR + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - PCS.ball);
   }
   
   g.setFont("Vector",18).drawString(
