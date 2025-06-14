@@ -179,7 +179,7 @@ function logPCS(scoreType, scoreData) {
   case 'COV':
     // PCS.overLog.push(PCS.lastMessage.graph);
     addLog((new Date()), over, counter, 
-        "PCS Over", PCS.overLog);
+        "PCS Over", PCS.overLog.join(''));
     PCS.overLog = [];
     PCS.lastMessage.delivery = '';
     PCS.lastMessage.graph = '';
