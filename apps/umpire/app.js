@@ -182,6 +182,7 @@ function logPCS(scoreType, scoreData) {
         "PCS Over", PCS.overLog);
     PCS.overLog = [];
     PCS.lastMessage.delivery = '';
+    PCS.lastMessage.graph = '';
     break;
   case 'OVB': // over ball
     PCS.previousBall = PCS.ball;
@@ -509,7 +510,8 @@ function countDown(dir) {
     ballGraph =  
       PCS.lastMessage.delivery + ' '
       + PCS.overLog.join('')  //+ ' ' // + PCS.lastMessage.delivery; 
-      + '_' + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - PCS.ball);
+      + PCS.lastMessage.graph
+      + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - PCS.ball);
   }
   
   g.setFont("Vector",18).drawString(
