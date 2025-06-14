@@ -508,9 +508,7 @@ function countDown(dir) {
   } else {
     ballGraph =  
       PCS.lastMessage.delivery + ' '
-      PCS.overLog.join('')
-        //+ ' '
-     // + PCS.lastMessage.delivery; 
+      PCS.overLog.join('')  //+ ' ' // + PCS.lastMessage.delivery; 
      + BALL_TO_COME_CHAR.repeat(BALLS_PER_OVER - PCS.ball);
   }
   
