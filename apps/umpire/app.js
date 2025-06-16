@@ -693,14 +693,15 @@ showMainMenu(); // ready to play
 
 NRF.disconnect(); // drop BLE connections to allow restart of BLE
 NRF.setAdvertising({}, {
-  name: 'Umpire' + counter,
+  name: 'Umpire Watch',
   showName: true,
   discoverable: true , // general discoverable, or limited - default is limited
   connectable: true,  // whether device is connectable - default is true
   scannable : true ,   // whether device can be scanned for scan response packets - default is true
   whenConnected : true ,// keep advertising when connected (nRF52 only)
-  interval: 1000});
- // phy: "1mbps,coded"});
+  interval: 1000, //});
+  manufacturerData: [over + '.' + counter],
+  phy: "coded"});
 
 NRF.setServices({
   "5a0d6a15-b664-4304-8530-3a0ec53e5bc1" : {
