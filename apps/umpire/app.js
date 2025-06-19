@@ -697,8 +697,8 @@ NRF.setAdvertising({}, {
   showName: true,
   discoverable: true , // general discoverable, or limited - default is limited
   connectable: true,  // whether device is connectable - default is true
-  scannable : true ,   // whether device can be scanned for scan response packets - default is true
-  whenConnected : true ,// keep advertising when connected (nRF52 only)
+  scannable : false ,   // whether device can be scanned for scan response packets - default is true
+  whenConnected : false ,// keep advertising when connected (nRF52 only)
   //manufacturerData: [over + '.' + counter],
   interval: 1000, //});
   phy: "coded"});
