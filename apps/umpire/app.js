@@ -13,7 +13,7 @@ const TIMEZONE_OFFSET_HOURS = (new Date()).getTimezoneOffset() / 60;
 const STEP_COUNT_OFFSET = Bangle.getStepCount();
 const BALL_TO_COME_CHAR = '-';
 const BALL_FACED_CHAR = '=';
-const DEBUG_TO = 'console'; // console/screen/none
+const DEBUG_TO = 'screen'; // console/screen/none
 
 // debug to screen option:
 if(DEBUG_TO=='screen') Terminal.setConsole(1);
