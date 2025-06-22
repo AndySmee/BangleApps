@@ -721,7 +721,7 @@ NRF.setServices({
 
 NRF.on('connect', function(addr) {
   Bangle.buzz(1000);
-  NRF.setConnectionInterval({minInterval:1000, maxInterval:4000});
+  //NRF.setConnectionInterval({minInterval:1000, maxInterval:4000});
   addLog((new Date()), over, counter, "BT Connected");
   if(DEBUG_TO=='screen') console.log("BT Connected", addr);
 });
