@@ -1,4 +1,4 @@
-// settings and environment 
+// settings and environment
 var settings = Object.assign({
   // default values
   ballsPerOver: 6,
