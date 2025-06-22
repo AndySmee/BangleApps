@@ -692,8 +692,7 @@ newInnings(); // prepare 1st innings
 showMainMenu(); // ready to play
 
 NRF.disconnect(); // drop BLE connections to allow restart of BLE
-NRF.setTxPower(8);
-NRF.setConnectionInterval(1000); 
+NRF.setTxPower(8); 
 NRF.setAdvertising({}, {
   name: 'Umpire Watch',
   showName: true,
@@ -708,7 +707,7 @@ NRF.setAdvertising({}, {
 NRF.setServices({
   "5a0d6a15-b664-4304-8530-3a0ec53e5bc1" : {
     "df531f62-fc0b-40ce-81b2-32a6262ea440" : {
-      value : ["BTS100/9"], 
+      value : ["BTS100/987654321"], 
       writable : true,
       onWrite : function(evt) {
           var typeA = new Uint8Array(evt.data, 0, 3);
@@ -722,6 +721,7 @@ NRF.setServices({
 
 NRF.on('connect', function(addr) {
   Bangle.buzz(1000);
+  NRF.setConnectionInterval({minInterval:1000, maxInterval:4000});
   addLog((new Date()), over, counter, "BT Connected");
   if(DEBUG_TO=='screen') console.log("BT Connected", addr);
 });
