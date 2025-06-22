@@ -693,7 +693,7 @@ showMainMenu(); // ready to play
 
 NRF.disconnect(); // drop BLE connections to allow restart of BLE
 NRF.setTxPower(8);
-NRF.setConnectionInterval({minInterval:1000, maxInterval:4000}); 
+NRF.setConnectionInterval(1000); 
 NRF.setAdvertising({}, {
   name: 'Umpire Watch',
   showName: true,
